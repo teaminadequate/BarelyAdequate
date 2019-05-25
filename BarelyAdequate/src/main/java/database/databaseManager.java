@@ -1,7 +1,6 @@
 package database;
 
    import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,10 +30,7 @@ import java.util.Map.Entry;
 		
 		e.printStackTrace();
 		
-	}
-		  
-		   
-		   
+	}  
 	   }
 		
 	 
@@ -43,16 +39,16 @@ import java.util.Map.Entry;
 		   
 	        String url = "jdbc:sqlite:users.db";
 	        
-	        Connection conn = null;
+	        Connection connect = null;
 	        
 	        try {
-	            conn = DriverManager.getConnection(url);
+	            connect = DriverManager.getConnection(url);
 	            
 	        } catch (SQLException e) {
 	        	
 	            System.out.println(e.getMessage());
 	        }
-	        return conn;
+	        return connect;
 	    }
 		   
 		   
@@ -60,15 +56,15 @@ import java.util.Map.Entry;
 			  
 			  String sql = "INSERT INTO users(USERNAME,EMAIL) VALUES(?,?)";
 			  
-		        try (Connection conn = this.connect();
+		        try (Connection connect = this.connect();
 		        		
-		                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+		                PreparedStatement state = connect.prepareStatement(sql)) {
 		        	
-		            pstmt.setString(1, username);
+		            state.setString(1, username);
 		            
-		            pstmt.setString(2, email);
+		            state.setString(2, email);
 		            
-		            pstmt.executeUpdate();
+		            state.executeUpdate();
 		            
 		        } catch (SQLException e) {
 		        	
@@ -76,6 +72,48 @@ import java.util.Map.Entry;
 		            
 		        }	 	   
 		   }
+		  
+public void insertTask(String projectName, String task) throws SQLException, ClassNotFoundException  {
+			  
+			  String sql = "INSERT INTO tasks(PROJECTNAME,TASKDESCRIPTION) VALUES(?,?)";
+			  
+		        try (Connection connect = this.connect();
+		        		
+		                PreparedStatement state = connect.prepareStatement(sql)) {
+		        	
+		            state.setString(1, projectName);
+		            
+		            state.setString(2, task);
+		            
+		            state.executeUpdate();
+		            
+		        } catch (SQLException e) {
+		        	
+		            System.out.println(e.getMessage());
+		            
+		        }	 	   
+		   }
+		
+
+		public void deleteTask(String taskDescription) throws ClassNotFoundException {
+			  
+		    String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
+		
+		    try (Connection connect = this.connect();
+		    		
+		            PreparedStatement state = connect.prepareStatement(sql)) {
+		    	
+		        state.setString(2, taskDescription);
+		        
+		        state.executeUpdate();
+		
+		    } catch (SQLException e) {
+		    	
+		        System.out.println(e.getMessage());
+		        
+		    }
+		}
+
 		  
 		  public void deleteUser(String username) throws ClassNotFoundException {
 			  

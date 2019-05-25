@@ -105,9 +105,9 @@ public class databaseManager {
 
 		}
 	}
-	public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException {
+	public void insertTask(String projectName, String task) throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?,?)";
+		String sql = "INSERT INTO tasks(PROJECTNAME,TASKDESCRIPTION) VALUES(?,?)";
 
 		try (Connection connect = this.connect();
 
@@ -115,9 +115,7 @@ public class databaseManager {
 
 			state.setString(1, projectName);
 
-			state.setInt(2, taskID);
-
-			state.setString(3, task);
+			state.setString(2, task);
 			state.executeUpdate();
 
 		} catch (SQLException e) {
@@ -127,15 +125,15 @@ public class databaseManager {
 		}
 	}
 
-	public void deleteTask(int taskID) throws ClassNotFoundException {
+	public void deleteTask(int task) throws ClassNotFoundException {
 
-		String sql = "DELETE FROM tasks WHERE TASKID  = ?";
+		String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
 
 		try (Connection connect = this.connect();
 
 				PreparedStatement state = connect.prepareStatement(sql)) {
 
-			state.setInt(2, taskID);
+			state.setInt(2, task);
 
 			state.executeUpdate();
 

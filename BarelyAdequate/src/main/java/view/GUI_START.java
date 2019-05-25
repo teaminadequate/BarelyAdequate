@@ -7,8 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Project;
 import model.User;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -33,6 +33,9 @@ public class GUI_START {
 	
 	/**The loaded user. */
 	private User loadedUser;
+	
+	/**The loaded project. */
+	private Project loadedProject;
 	
 	/**Project title field (my Projects tab*/
 	private JTextField titleField;
@@ -158,167 +161,206 @@ public class GUI_START {
 //-----------------------MY PROJECTS TAB----------------------------------
 		
 		// Panel for my project tabs
-		JPanel myProjectsPanel = new JPanel();
+		JPanel myProjectsPanel = new JPanel(null);
 		
 		tabbedPane.addTab("My Projects", null, myProjectsPanel, null);
-		
-		myProjectsPanel.setLayout(null);
-	
-		JLabel lblDifficulty_1 = new JLabel("Difficulty:");
-		
-		lblDifficulty_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		lblDifficulty_1.setBounds(252, 102, 198, 23);
-		
-		myProjectsPanel.add(lblDifficulty_1);
-		
-		//difficulty slider
-		JSlider difficultySlider = new JSlider();
-		
-		difficultySlider.setBackground(new Color(240, 240, 240));
-		
-		difficultySlider.setForeground(new Color(0, 128, 0));
-		
-		difficultySlider.setBounds(252, 123, 200, 20);
-		
-		myProjectsPanel.add(difficultySlider);
-		
-		
-		
-		
-		//save project button
-		JButton svButton = new JButton("Save Project");
-		
-		svButton.addActionListener(new ActionListener() {
-			
+
+		// New project button
+		JButton newButton = new JButton("New Project");
+		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-			}});
-			
-		svButton.setBackground(Color.LIGHT_GRAY);
-		
+				loadedProject = new Project();
+				//showHiddenProjectFields(true);
+			}
+		});
+		newButton.setForeground(new Color(0, 0, 0));
+		newButton.setBounds(10, 20, 150, 30);
+		// Load project button
+		JButton ldButton = new JButton("Load Project...");
+		ldButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// query database to populate dropdown menu
+				// showHiddenProjectFields(true);
+				// else
+			}
+		});
+		ldButton.setForeground(new Color(0, 0, 0));
+		ldButton.setBounds(10, 55, 150, 30);
+		// save project button
+		JButton svButton = new JButton("Save Project");
+		svButton.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		svButton.setBounds(10, 90, 150, 30);
 		svButton.setForeground(new Color(0, 0, 0));
 		
-		svButton.setBounds(10, 68, 192, 33);
-		
+		myProjectsPanel.add(newButton);
+		myProjectsPanel.add(ldButton);
 		myProjectsPanel.add(svButton);
 		
+		newButton.setVisible(true);
+		ldButton.setVisible(true);
 		
-		// Project Progress Bar
-		JProgressBar progressBar = new JProgressBar();
+		JLabel lblTitle = new JLabel("Title");
+		lblTitle.setBounds(180, 20, 150, 10);
+		JTextArea titleField = new JTextArea();
+		titleField.setBounds(180, 30, 150, 20);
 		
-		progressBar.setForeground(new Color(0, 100, 0));
-		
-		progressBar.setValue(20);
-		
-		progressBar.setBounds(24, 125, 206, 20);
-		
-		myProjectsPanel.add(progressBar);
-	
-		JLabel lblProgress = new JLabel("Progress:");
-		
-		lblProgress.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		lblProgress.setBounds(24, 102, 198, 23);
-		
-		myProjectsPanel.add(lblProgress);
-		
-		
-		
-		JLabel lblCurrentInvestment = new JLabel("Current Investment:");
-		
-		lblCurrentInvestment.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		lblCurrentInvestment.setBounds(212, 55, 198, 23);
-		
-		myProjectsPanel.add(lblCurrentInvestment);
-		
-		
-		
-		
-		JLabel lblTitle = new JLabel("Title:");
-		
-		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		lblTitle.setBounds(212, 0, 59, 23);
-		
-		myProjectsPanel.add(lblTitle);
-		
-		
-		
-		
-		JLabel lblMaterial = new JLabel("Materials");
-		
-		lblMaterial.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-		lblMaterial.setBounds(24, 156, 198, 23);
-		
-		myProjectsPanel.add(lblMaterial);
-		
-		
-		
-		// Load project button
-		JButton ldButton = new JButton("Load Project..");
-		
-		ldButton.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-
-		ldButton.setBackground(Color.LIGHT_GRAY);
-		
-		ldButton.setBounds(10, 18, 192, 33);
-		
-		myProjectsPanel.add(ldButton);
-		
-		
-		
-		
-		titleField = new JTextField();
-		titleField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		titleField.setBounds(212, 21, 244, 27);
+		JLabel lblPreBill = new JLabel("Current Bill");
+		lblPreBill.setBounds(180, 55, 150, 10);
+		JTextArea preBillField = new JTextArea();
+		preBillField.setBounds(180, 65, 150, 20);
+		JLabel lblPostBill = new JLabel("Projected New Bill");
+		lblPostBill.setBounds(180, 90, 150, 20);
+		JTextArea postBillField = new JTextArea();
+		postBillField.setBounds(180, 105, 150, 20);
 		
 		myProjectsPanel.add(titleField);
-		
-		titleField.setColumns(10);
-		
-		
-		InvestmentField = new JTextField();
-		InvestmentField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		InvestmentField.setBounds(212, 74, 244, 23);
-		
-		myProjectsPanel.add(InvestmentField);
-		
-		InvestmentField.setColumns(10);
+		myProjectsPanel.add(lblTitle);
+		myProjectsPanel.add(preBillField);
+		myProjectsPanel.add(lblPreBill);
+		myProjectsPanel.add(lblPostBill);
+		myProjectsPanel.add(postBillField);
 		
 		
 		
 		
-		JTextArea materialsTextArea = new JTextArea();
-		
-		materialsTextArea.setBounds(24, 175, 432, 148);
-		
-		myProjectsPanel.add(materialsTextArea);
 		
 		
-		// background for my Projects Tab.
-		JLabel bgrdMyProjectsTab = new JLabel("New label");
+
 		
-		bgrdMyProjectsTab.setIcon(new ImageIcon("src\\resources\\background.png"));
-		
-		bgrdMyProjectsTab.setBounds(0, 0, 479, 334);
-		
-		myProjectsPanel.add(bgrdMyProjectsTab);
+//		//difficulty slider
+//		JSlider difficultySlider = new JSlider();
+//		
+//		difficultySlider.setBackground(new Color(240, 240, 240));
+//		
+//		difficultySlider.setForeground(new Color(0, 128, 0));
+//		
+//		difficultySlider.setBounds(252, 123, 200, 20);
+//		
+//		myProjectsPanel.add(difficultySlider);
+//		
+//		
+//		
+//		
+//
+//		
+//		
+//		svButton.setBounds(10, 68, 192, 33);
+//		
+//		myProjectsPanel.add(svButton);
+//		
+//		
+//		// Project Progress Bar
+//		JProgressBar progressBar = new JProgressBar();
+//		
+//		progressBar.setForeground(new Color(0, 100, 0));
+//		
+//		progressBar.setValue(20);
+//		
+//		progressBar.setBounds(24, 125, 206, 20);
+//		
+//		myProjectsPanel.add(progressBar);
+//	
+//		JLabel lblProgress = new JLabel("Progress:");
+//		
+//		lblProgress.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		
+//		lblProgress.setBounds(24, 102, 198, 23);
+//		
+//		myProjectsPanel.add(lblProgress);
+//		
+//		
+//		
+//		JLabel lblCurrentInvestment = new JLabel("Current Investment:");
+//		
+//		lblCurrentInvestment.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		
+//		lblCurrentInvestment.setBounds(212, 55, 198, 23);
+//		
+//		myProjectsPanel.add(lblCurrentInvestment);
+//		
+//		
+//		
+//		
+//		JLabel lblTitle = new JLabel("Title:");
+//		
+//		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		
+//		lblTitle.setBounds(212, 0, 59, 23);
+//		
+//		myProjectsPanel.add(lblTitle);
+//		
+//		
+//		
+//		
+//		JLabel lblMaterial = new JLabel("Materials");
+//		
+//		lblMaterial.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		
+//		lblMaterial.setBounds(24, 156, 198, 23);
+//		
+//		myProjectsPanel.add(lblMaterial);
+//		
+//		
+//		
+//		
+//
+//		ldButton.setBackground(Color.LIGHT_GRAY);
+//		
+//		ldButton.setBounds(10, 18, 192, 33);
+//		
+//		myProjectsPanel.add(ldButton);
+//		
+//		
+//		
+//		
+//		titleField = new JTextField();
+//		titleField.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+//		
+//		titleField.setBounds(212, 21, 244, 27);
+//		
+//		myProjectsPanel.add(titleField);
+//		
+//		titleField.setColumns(10);
+//		
+//		
+//		InvestmentField = new JTextField();
+//		InvestmentField.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+//		
+//		InvestmentField.setBounds(212, 74, 244, 23);
+//		
+//		myProjectsPanel.add(InvestmentField);
+//		
+//		InvestmentField.setColumns(10);
+//		
+//		
+//		
+//		
+//		JTextArea materialsTextArea = new JTextArea();
+//		
+//		materialsTextArea.setBounds(24, 175, 432, 148);
+//		
+//		myProjectsPanel.add(materialsTextArea);
+//		
+//		
+//		// background for my Projects Tab.
+//		JLabel bgrdMyProjectsTab = new JLabel("New label");
+//		
+//		bgrdMyProjectsTab.setIcon(new ImageIcon("BarelyAdequate\\src\\main\\java\\resources\\background.png"));
+//		
+//		bgrdMyProjectsTab.setBounds(0, 0, 479, 334);
+//		
+//		myProjectsPanel.add(bgrdMyProjectsTab);
 		
 	
 //-------------------Compare Projects Tab---------------------------		

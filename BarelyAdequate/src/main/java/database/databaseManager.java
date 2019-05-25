@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 	   public static void main( String args[] ) throws SQLException {
 		   
 	databaseManager manager = new databaseManager();
-	
+
 	   }
 		
 	 
@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 		   
 		  public void insertUser(int userID, String username, String email) throws SQLException, ClassNotFoundException  {
 			  
-			  String sql = "INSERT INTO users(USERNAME,EMAIL) VALUES(?,?)";
+			  String sql = "INSERT INTO users(USERID,USERNAME,EMAIL) VALUES(?,?,?)";
 			  
 		        try (Connection connect = this.connect();
 		        		
@@ -67,7 +67,7 @@ import java.util.Map.Entry;
 		  
 public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException  {
 			  
-			  String sql = "INSERT INTO tasks(PROJECTNAME, TASKID,TASKDESCRIPTION) VALUES(?,?)";
+			  String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?,?)";
 			  
 		        try (Connection connect = this.connect();
 		        		
@@ -91,7 +91,7 @@ public void insertTask(String projectName, int taskID, String task) throws SQLEx
 
 		public void deleteTask(int taskID) throws ClassNotFoundException {
 			  
-		    String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
+		    String sql = "DELETE FROM tasks WHERE TASKID  = ?";
 		
 		    try (Connection connect = this.connect();
 		    		
@@ -117,7 +117,7 @@ public void insertTask(String projectName, int taskID, String task) throws SQLEx
 		        		
 		                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 		        	
-		            pstmt.setString(2, username);
+		            pstmt.setString(1, username);
 		            
 		            pstmt.executeUpdate();
 		 
@@ -128,34 +128,36 @@ public void insertTask(String projectName, int taskID, String task) throws SQLEx
 		        }
 		    }
 		  
-		  public void insertMaterial(int userID, String projectName, String materialName, double cost) throws SQLException, ClassNotFoundException  {
+		  public void insertMaterial(int itemID, int userID, String projectName, String materialName, double cost) throws SQLException, ClassNotFoundException  {
 			  
-			  String sql = "INSERT INTO projects(ID,NAME,PRICE) VALUES(?,?,?)";
+			  String sql = "INSERT INTO materials(ITEMID, USERID, PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?,?)";
 			  
 		        Connection conn = this.connect();
 		        
 		        PreparedStatement pstmt = conn.prepareStatement(sql); 
 		        
-		        pstmt.setInt(1, userID);
+		        pstmt.setInt(1, itemID);
 		        
-		        pstmt.setString(2, projectName);
+		        pstmt.setInt(2, userID);
 		        
-		        pstmt.setString(3, materialName);
+		        pstmt.setString(3, projectName);
 		        
-		        pstmt.setDouble(4, cost);
+		        pstmt.setString(4, materialName);
+		        
+		        pstmt.setDouble(5, cost);
 		        
 		        pstmt.executeUpdate();  	   
 		   }
 		  
 		  public void deleteMaterial(String materialName) throws ClassNotFoundException {
 			  
-		        String sql = "DELETE FROM users WHERE USERNAME = ?";
+		        String sql = "DELETE FROM materials WHERE MATERIALNAME = ?";
 		 
 		        try (Connection conn = this.connect();
 		        		
 		                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 		        	
-		            pstmt.setString(3, materialName);
+		            pstmt.setString(1, materialName);
 		            
 		            pstmt.executeUpdate();
 		 

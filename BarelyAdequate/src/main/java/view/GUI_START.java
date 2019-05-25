@@ -6,6 +6,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import model.User;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -27,6 +30,9 @@ public class GUI_START {
 	
 	/**password field*/ 
 	private JTextField emailField;
+	
+	/**The loaded user. */
+	private User loadedUser;
 	
 	/**Project title field (my Projects tab*/
 	private JTextField titleField;
@@ -132,6 +138,8 @@ public class GUI_START {
 		JButton logInButton = new JButton("Log In");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				loadedUser = new User(nameField.getText(), emailField.getText());
+				
 			}
 		});
 		logInButton.setBounds(200, 220, 75, 20);
@@ -141,7 +149,7 @@ public class GUI_START {
 		//background image label icon.
 		JLabel bgrdHome = new JLabel("New label");
 		
-		bgrdHome.setIcon(new ImageIcon("src\\resources\\background.png"));
+		bgrdHome.setIcon(new ImageIcon("BarelyAdequate\\src\\main\\java\\resources\\background.png"));
 		
 		bgrdHome.setBounds(0, -12, 479, 346);
 		

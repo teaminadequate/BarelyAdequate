@@ -46,7 +46,7 @@ public class databaseManager {
 
 	public void insertUser(String username, String email) throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO users(USERNAME,EMAIL) VALUES(?,?,?)";
+		String sql = "INSERT INTO users(USERNAME,EMAIL) VALUES(?,?)";
 
 		try (Connection connect = this.connect();
 
@@ -87,9 +87,27 @@ public class databaseManager {
 
 		}
 	}
+	
+	public void deleteProject(String projectName) throws SQLException, ClassNotFoundException {
+		String sql = "DELETE FROM project WHERE PROJECTNAME  = ?";
+
+		try (Connection connect = this.connect();
+
+				PreparedStatement state = connect.prepareStatement(sql)) {
+
+			state.setString(1, projectName);
+
+			state.executeUpdate();
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		}
+	}
 	public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?)";
+		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?,?)";
 
 		try (Connection connect = this.connect();
 
@@ -128,7 +146,7 @@ public class databaseManager {
 		}
 	}
 
-	public void insertMaterial(int itemID, String projectName, String materialName, double cost)
+	public void insertMaterial(String projectName, String materialName, double cost)
 			throws SQLException, ClassNotFoundException {
 
 		String sql = "INSERT INTO materials(ITEMID,PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?)";
@@ -137,13 +155,11 @@ public class databaseManager {
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-		pstmt.setInt(1, itemID);
+		pstmt.setString(1, projectName);
 
-		pstmt.setString(2, projectName);
+		pstmt.setString(2, materialName);
 
-		pstmt.setString(3, materialName);
-
-		pstmt.setDouble(4, cost);
+		pstmt.setDouble(3, cost);
 
 		pstmt.executeUpdate();
 	}

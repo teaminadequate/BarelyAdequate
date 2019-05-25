@@ -1,3 +1,7 @@
+/***
+ * This is the class that manages all 
+ * 
+ */
 package database;
 
 import java.sql.Connection;
@@ -9,7 +13,6 @@ import java.sql.Statement;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -19,7 +22,7 @@ public class databaseManager {
 
 		databaseManager manager = new databaseManager();
 		try {
-			manager.insertUser("diy6", "email6");
+			manager.insertUser("nicole", "email67");
 
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -51,7 +54,7 @@ public class databaseManager {
 		try (Connection connect = this.connect();
 
 				PreparedStatement state = connect.prepareStatement(sql)) {
-			
+
 			state.setString(1, username);
 
 			state.setString(2, email);
@@ -64,9 +67,12 @@ public class databaseManager {
 
 		}
 	}
-	public void insertProject(String projectName, int userID, double preBill, double postBill) throws SQLException, ClassNotFoundException{
+
+	
+	public void insertProject(String projectName, int userID, double preBill, double postBill)
+			throws SQLException, ClassNotFoundException {
 		String sql = "INSERT INTO project(PROJECTNAME, USERID, PREBILL, POSTBILL) VALUES (?,?,?,?)";
-		
+
 		try (Connection connect = this.connect();
 
 				PreparedStatement state = connect.prepareStatement(sql)) {
@@ -76,9 +82,9 @@ public class databaseManager {
 			state.setInt(2, userID);
 
 			state.setDouble(3, preBill);
-			
+
 			state.setDouble(4, postBill);
-			
+
 			state.executeUpdate();
 
 		} catch (SQLException e) {
@@ -88,8 +94,15 @@ public class databaseManager {
 		}
 	}
 	
+<<<<<<< HEAD
 	public void deleteProject(String projectName) throws SQLException, ClassNotFoundException {
 		String sql = "DELETE FROM project WHERE PROJECTNAME  = ?";
+=======
+	
+	public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException {
+
+		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?)";
+>>>>>>> 1d30e3ac420c1fe9e064a2d5c67276a56f389975
 
 		try (Connection connect = this.connect();
 
@@ -125,7 +138,12 @@ public class databaseManager {
 		}
 	}
 
+<<<<<<< HEAD
 	public void deleteTask(int task) throws ClassNotFoundException {
+=======
+	
+	public void deleteTask(int taskID) throws ClassNotFoundException {
+>>>>>>> 1d30e3ac420c1fe9e064a2d5c67276a56f389975
 
 		String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
 

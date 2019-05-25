@@ -17,6 +17,8 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JSlider;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+
 import java.awt.Color;
 import java.awt.SystemColor;
 
@@ -225,6 +227,27 @@ public class GUI_START {
 		myProjectsPanel.add(lblPostBill);
 		myProjectsPanel.add(postBillField);
 		
+		JLabel lblProcedure = new JLabel("Procedure");
+		lblProcedure.setBounds(10, 150, 325, 10);
+		JScrollPane procedure = new JScrollPane();
+		procedure.setBounds(10, 165, 325, 150);
+		myProjectsPanel.add(lblProcedure);
+		myProjectsPanel.add(procedure);
+		
+		JLabel lblMaterials = new JLabel("Materials");
+		lblMaterials.setBounds(340, 20, 150, 10);
+		JScrollPane materials = new JScrollPane();
+		materials.setBounds(340, 35, 130, 250);
+		
+		myProjectsPanel.add(lblMaterials);
+		myProjectsPanel.add(materials);
+		
+		JLabel lblDiff = new JLabel("Difficulty");
+		lblDiff.setBounds(340, 280, 130, 20);
+		JSlider diffSlider = new JSlider(1,3);
+		diffSlider.setBounds(340, 300, 130, 20);
+		myProjectsPanel.add(lblDiff);
+		myProjectsPanel.add(diffSlider);
 		
 		
 		
@@ -233,7 +256,7 @@ public class GUI_START {
 
 		
 //		//difficulty slider
-//		JSlider difficultySlider = new JSlider();
+//		
 //		
 //		difficultySlider.setBackground(new Color(240, 240, 240));
 //		

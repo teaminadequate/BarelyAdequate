@@ -64,10 +64,32 @@ public class databaseManager {
 
 		}
 	}
+	public void insertProject(String projectName, int userID, double preBill, double postBill) throws SQLException, ClassNotFoundException{
+		String sql = "INSERT INTO project(PROJECTNAME, USERID, PREBILL, POSTBILL) VALUES (?,?,?,?)";
+		
+		try (Connection connect = this.connect();
 
+				PreparedStatement state = connect.prepareStatement(sql)) {
+
+			state.setString(1, projectName);
+
+			state.setInt(2, userID);
+
+			state.setDouble(3, preBill);
+			
+			state.setDouble(4, postBill);
+			
+			state.executeUpdate();
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		}
+	}
 	public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?,?)";
+		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?)";
 
 		try (Connection connect = this.connect();
 
@@ -109,7 +131,7 @@ public class databaseManager {
 	public void insertMaterial(int itemID, String projectName, String materialName, double cost)
 			throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO materials(ITEMID, PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?,?)";
+		String sql = "INSERT INTO materials(ITEMID,PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?)";
 
 		Connection conn = this.connect();
 

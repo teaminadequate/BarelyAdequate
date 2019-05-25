@@ -5,6 +5,7 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,7 +21,7 @@ public class Project {
 	/** The title of the project. */
 	private String myTitle;
 	/** A checklist of materials. */
-	private CheckList<Material> myMaterials;
+	private ArrayList<Material> myMaterials;
 	/** The bill being affected by this project. */
 	private Bill myBill;
 	/** The difficulty of the project. */
@@ -28,16 +29,16 @@ public class Project {
 	/** The total cost of all the materials used in this project. */
 	private double myTotal;
 	/** A checklist of procedure steps needed to complete this project. */
-	private CheckList<String> myProcedure;
+	private ArrayList<String> myProcedure;
 	
 	/** Initializes a new blank project. */
 	public Project() {
 		myTitle = "";
-		myMaterials = new CheckList<Material>();
+		myMaterials = new ArrayList<Material>();
 		myBill = new Bill();
 		myDiff = Difficulty.Easy;
 		myTotal = 0.0;
-		myProcedure = new CheckList<String>();
+		myProcedure = new ArrayList<String>();
 	}
 	/**
 	 * Constructor to load a project from a .csv file.
@@ -95,8 +96,4 @@ public class Project {
 	public void removeStep(int theIndex) {
 		myProcedure.remove(theIndex);
 	}
-	public int getPercentDone() {
-		return ( myProcedure.getPercentDone() + myMaterials.getPercentDone() ) / 2;
-	}
-	
 }

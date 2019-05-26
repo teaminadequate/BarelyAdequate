@@ -94,15 +94,8 @@ public class databaseManager {
 		}
 	}
 	
-<<<<<<< HEAD
 	public void deleteProject(String projectName) throws SQLException, ClassNotFoundException {
 		String sql = "DELETE FROM project WHERE PROJECTNAME  = ?";
-=======
-	
-	public void insertTask(String projectName, int taskID, String task) throws SQLException, ClassNotFoundException {
-
-		String sql = "INSERT INTO tasks(PROJECTNAME,TASKID,TASKDESCRIPTION) VALUES(?,?)";
->>>>>>> 1d30e3ac420c1fe9e064a2d5c67276a56f389975
 
 		try (Connection connect = this.connect();
 
@@ -118,6 +111,8 @@ public class databaseManager {
 
 		}
 	}
+	
+	
 	public void insertTask(String projectName, String task) throws SQLException, ClassNotFoundException {
 
 		String sql = "INSERT INTO tasks(PROJECTNAME,TASKDESCRIPTION) VALUES(?,?)";
@@ -138,12 +133,7 @@ public class databaseManager {
 		}
 	}
 
-<<<<<<< HEAD
 	public void deleteTask(int task) throws ClassNotFoundException {
-=======
-	
-	public void deleteTask(int taskID) throws ClassNotFoundException {
->>>>>>> 1d30e3ac420c1fe9e064a2d5c67276a56f389975
 
 		String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
 

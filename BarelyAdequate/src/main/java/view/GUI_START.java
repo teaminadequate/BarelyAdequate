@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import database.databaseManager;
 import model.Project;
 import model.User;
 import javax.swing.ImageIcon;
@@ -38,6 +39,8 @@ public class GUI_START {
 	
 	/**The loaded project. */
 	private Project loadedProject;
+	
+	private databaseManager dbm;
 	
 	/**Project title field (my Projects tab*/
 	private JTextField titleField;
@@ -78,7 +81,7 @@ public class GUI_START {
 	 */
 	private void setup() {
 		
-		
+		dbm = new databaseManager();
 		//Setup Frame
 		frame = new JFrame();
 		
@@ -171,7 +174,7 @@ public class GUI_START {
 		JButton newButton = new JButton("New Project");
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadedProject = new Project();
+				loadedProject = new Project(dbm);
 				//showHiddenProjectFields(true);
 			}
 		});

@@ -6,8 +6,11 @@ package model;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import database.databaseManager;
 
 /**
  * 
@@ -36,15 +39,20 @@ public class Project {
 	
 	/** A checklist of procedure steps needed to complete this project. */
 	private ArrayList<String> myProcedure;
+	
+	/** The database being used to represent the project. */
+	private databaseManager dbm;
 
 	/** Initializes a new blank project. */
-	public Project() {
+	public Project(databaseManager theDBM) {
 		myTitle = "";
 		myMaterials = new ArrayList<Material>();
 		myBill = new Bill();
 		myDiff = Difficulty.Easy;
 		myTotal = 0.0;
 		myProcedure = new ArrayList<String>();
+		dbm = theDBM;
+		
 	}
 
 	/**
@@ -54,6 +62,7 @@ public class Project {
 	 */
 	public String getTitle() {
 		return myTitle;
+		
 	}
 
 	/**
@@ -63,16 +72,19 @@ public class Project {
 	 */
 	public void setTitle(String theTitle) {
 		myTitle = theTitle;
+		
 	}
 
 	/**
-	 * Adds a material to the list of materials.
+	 * Adds a material to the list of materials, as well as to the database.
 	 * 
 	 * @param theMaterial the material to be added to the list
 	 */
-	public void addMaterial(Material theMaterial) {
+	public void addMaterial(Material theMaterial) throws SQLException, ClassNotFoundException{
 		myMaterials.add(theMaterial);
 		myTotal += theMaterial.getCost();
+		dbm.insertMaterial(myTitle, theMaterial.getName(), theMaterial.getCost());
+		
 	}
 
 	/**
@@ -80,12 +92,13 @@ public class Project {
 	 * 
 	 * @param theMaterialName the name of the material that you want to be removed
 	 */
-	public void removeMaterial(String theMaterialName) {
+	public void removeMaterial(String theMaterialName) throws SQLException, ClassNotFoundException{
 		
 		for (int i = 0; i < myMaterials.size(); i++) {
 			if (theMaterialName.equals(myMaterials.get(i).getName())) {
 				myMaterials.remove(i);
 				myTotal -= myMaterials.get(i).getCost();
+				dbm.deleteMaterial(theMaterialName);
 				
 			}
 			
@@ -100,6 +113,7 @@ public class Project {
 	 */
 	public Bill getBill() {
 		return myBill;
+		
 	}
 
 	/**
@@ -109,6 +123,7 @@ public class Project {
 	 */
 	public void setCurrentBill(double theBill) {
 		myBill.setCurrentBill(theBill);
+		
 	}
 
 	/**
@@ -118,6 +133,7 @@ public class Project {
 	 */
 	public void setProjectedBill(double theBill) {
 		myBill.setProjectedBill(theBill);
+		
 	}
 
 	/**
@@ -127,6 +143,7 @@ public class Project {
 	 */
 	public Difficulty getDiff() {
 		return myDiff;
+		
 	}
 
 	/**
@@ -136,6 +153,7 @@ public class Project {
 	 */
 	public void setDiff(Difficulty theDiff) {
 		myDiff = theDiff;
+		
 	}
 
 	/**
@@ -145,6 +163,7 @@ public class Project {
 	 */
 	public double getTotal() {
 		return myTotal;
+		
 	}
 
 	/**
@@ -152,8 +171,10 @@ public class Project {
 	 * 
 	 * @param theStep the step to be added to the procedure list
 	 */
-	public void addStep(String theStep) {
+	public void addStep(String theStep) throws SQLException, ClassNotFoundException {
 		myProcedure.add(theStep);
+		dbm.insertTask(myTitle, theStep);
+		
 	}
 
 	/**
@@ -162,16 +183,21 @@ public class Project {
 	 * @param theIndex the index where you want the list to be
 	 * @param theStep the step to be added to the procedure list
 	 */
-	public void addStep(int theIndex, String theStep) {
+	public void addStep(int theIndex, String theStep) throws SQLException, ClassNotFoundException {
 		myProcedure.add(theIndex, theStep);
+		dbm.insertTask(myTitle, theStep);
+		
 	}
 
 	/**
-	 * Removes a step from the
+	 * Removes a step.
 	 * 
-	 * @param theIndex
+	 * @param theIndex the index of the step to be removed
 	 */
-	public void removeStep(int theIndex) {
+	public void removeStep(int theIndex) throws SQLException, ClassNotFoundException {
 		myProcedure.remove(theIndex);
+		dbm.deleteTask(theIndex);
+		
 	}
+	
 }

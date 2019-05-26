@@ -11,10 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import model.Bill;
+import model.Project;
+import model.Material;
 
 public class databaseManager {
 
@@ -22,8 +27,7 @@ public class databaseManager {
 
 		databaseManager manager = new databaseManager();
 		try {
-			manager.insertUser("nicole", "email67");
-
+			manager.getUserProjects("nicole");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,10 +72,78 @@ public class databaseManager {
 		}
 	}
 
-	
-	public void insertProject(String projectName, int userID, double preBill, double postBill)
+	public ArrayList<Project> getUserProjects(String userName) throws SQLException, ClassNotFoundException {
+		String sql = "SELECT USERNAME, PROJECTNAME, PREBILL, POSTBILL, DIFFICULTY FROM projects";
+
+		ArrayList<Project> projectList = new ArrayList<Project>();
+
+		Connection connect = this.connect();
+
+		Statement state = connect.createStatement();
+
+		ResultSet set = state.executeQuery(sql);
+
+		while (set.next()) {
+			if (set.getString("USERNAME").equals(userName)) {
+				Project p = new Project();
+				p.setTitle(set.getString("PROJECTNAME"));
+				p.setCurrentBill(set.getDouble("PREBILL"));
+				p.setProjectedBill(set.getDouble("POSTBILL"));
+				p.setDiff(set.getInt("DIFFICULTY"));
+				p.setMaterials(getUserProjectMaterials(userName, p.getTitle()));
+				p.setProcedure(getUserProjectProcedure(userName, p.getTitle()));
+				projectList.add(p);
+			}
+		}
+		return projectList;
+	}
+
+	public ArrayList<String> getUserProjectProcedure(String userName, String projectName) 
 			throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO project(PROJECTNAME, USERID, PREBILL, POSTBILL) VALUES (?,?,?,?)";
+		
+		String sql = "SELECT USERNAME, PROJECTNAME, TASKDESCRIPTION FROM tasks";
+
+		ArrayList<String> procedure = new ArrayList<String>();
+
+		Connection connect = this.connect();
+
+		Statement state = connect.createStatement();
+
+		ResultSet set = state.executeQuery(sql);
+		
+		while (set.next()) {
+			if (set.getString("USERNAME").equals(userName) && set.getString("PROJECTNAME").equals(projectName)) {
+				String task = set.getString("TASKDESCRIPTION");
+				procedure.add(task);
+			}
+		}
+		return procedure;
+	}
+
+	public ArrayList<Material> getUserProjectMaterials(String userName, String projectName) 
+			throws SQLException, ClassNotFoundException {
+		String sql = "SELECT USERNAME, PROJECTNAME, MATERIALNAME FROM materials";
+
+		ArrayList<Material> materialsList = new ArrayList<Material>();
+
+		Connection connect = this.connect();
+
+		Statement state = connect.createStatement();
+
+		ResultSet set = state.executeQuery(sql);
+		
+		while (set.next()) {
+			if (set.getString("USERNAME").equals(userName) && set.getString("PROJECTNAME").equals(projectName)) {
+				Material m = new Material(set.getString("MATERIALNAME"), set.getDouble("PRICE"));
+				materialsList.add(m);
+			}
+		}
+		return materialsList;
+	}
+
+	public void insertProject(String userName, String projectName, double preBill, double postBill, int diff)
+			throws SQLException, ClassNotFoundException {
+		String sql = "INSERT INTO projects(USERNAME, PROJECTNAME, PREBILL, POSTBILL, DIFFICULTY) VALUES (?,?,?,?,?)";
 
 		try (Connection connect = this.connect();
 
@@ -79,12 +151,14 @@ public class databaseManager {
 
 			state.setString(1, projectName);
 
-			state.setInt(2, userID);
+			state.setString(2, userName);
 
 			state.setDouble(3, preBill);
 
 			state.setDouble(4, postBill);
 
+			state.setInt(5, diff);
+
 			state.executeUpdate();
 
 		} catch (SQLException e) {
@@ -93,9 +167,9 @@ public class databaseManager {
 
 		}
 	}
-	
+
 	public void deleteProject(String projectName) throws SQLException, ClassNotFoundException {
-		String sql = "DELETE FROM project WHERE PROJECTNAME  = ?";
+		String sql = "DELETE FROM projects WHERE PROJECTNAME  = ?";
 
 		try (Connection connect = this.connect();
 
@@ -111,8 +185,7 @@ public class databaseManager {
 
 		}
 	}
-	
-	
+
 	public void insertTask(String projectName, String task) throws SQLException, ClassNotFoundException {
 
 		String sql = "INSERT INTO tasks(PROJECTNAME,TASKDESCRIPTION) VALUES(?,?)";
@@ -133,15 +206,15 @@ public class databaseManager {
 		}
 	}
 
-	public void deleteTask(int task) throws ClassNotFoundException {
+	public void deleteTasks(String projectName) throws ClassNotFoundException {
 
-		String sql = "DELETE FROM tasks WHERE TASKDESCRIPTION  = ?";
+		String sql = "DELETE FROM tasks WHERE PROJECTNAME  = ?";
 
 		try (Connection connect = this.connect();
 
 				PreparedStatement state = connect.prepareStatement(sql)) {
 
-			state.setInt(2, task);
+			state.setString(1, projectName);
 
 			state.executeUpdate();
 
@@ -155,7 +228,7 @@ public class databaseManager {
 	public void insertMaterial(String projectName, String materialName, double cost)
 			throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO materials(ITEMID,PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?)";
+		String sql = "INSERT INTO materials(PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?)";
 
 		Connection conn = this.connect();
 
@@ -170,15 +243,15 @@ public class databaseManager {
 		pstmt.executeUpdate();
 	}
 
-	public void deleteMaterial(String materialName) throws ClassNotFoundException {
+	public void deleteMaterials(String projectName) throws ClassNotFoundException {
 
-		String sql = "DELETE FROM materials WHERE MATERIALNAME = ?";
+		String sql = "DELETE FROM materials WHERE PROJECTNAME = ?";
 
 		try (Connection conn = this.connect();
 
 				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-			pstmt.setString(1, materialName);
+			pstmt.setString(1, projectName);
 
 			pstmt.executeUpdate();
 
@@ -208,6 +281,7 @@ public class databaseManager {
 		return list;
 	}
 
+	/* What does this do? */
 	public void updateMaterials(int userID, String projectName, String materialName, double price)
 			throws ClassNotFoundException, SQLException {
 
@@ -228,6 +302,7 @@ public class databaseManager {
 		state.executeUpdate();
 	}
 
+	/* Needs to be updated for new database setup (No User ID). */
 	public Map<Integer, Entry<String, Double>> getMaterials(int userID, String projectName)
 			throws ClassNotFoundException, SQLException {
 

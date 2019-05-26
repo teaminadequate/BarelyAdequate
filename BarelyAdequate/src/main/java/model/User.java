@@ -1,6 +1,9 @@
 package model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import database.databaseManager;
 
 /**
  * Stores the user's information
@@ -14,14 +17,18 @@ public class User {
 	private String userName;
 	/** The user's email address. */
 	private String userEmail;
+	/** The database being used to represent user's information and projects. */
+	private databaseManager dbm;
 	
 	/**
 	 * Constructor to initialize fields.
 	 */
-	public User(String theName, String theEmail) {
+	public User(String theName, String theEmail) throws SQLException, ClassNotFoundException{
 		userName = theName;
 		userEmail = theEmail;
+		dbm.insertUser(theName, theEmail);
 		userProjects = new ArrayList<Project>();
+		
 	}
 	/**
 	 * Getter for the username.
@@ -38,23 +45,27 @@ public class User {
 		return userEmail;
 	}
 	/**
-	 * Adds a new project to the list of this user's projects.
+	 * Adds a new project to the list of this user's projects if there isn't on already,
+	 * otherwise, overwrites a project of the same name
 	 * @param theProject
 	 */
-	public void addProject(Project theProject) {
+	public void addProject(Project theProject) throws ClassNotFoundException, SQLException {
 		userProjects.add(theProject);
-	}
-	/**
-	 * Returns a project of the specified name if it exists in the user's list,
-	 * null otherwise.
-	 * @param theName the name of the project we are looking for.
-	 */
-	public Project getProject(String theName) {
-		for(Project p : userProjects) {
-			if(p.getTitle().equals(theName)) {
-				return p;
-			}
+		dbm.insertProject(userName, theProject.getTitle(), 
+				theProject.getBill().getCurrentBill(), theProject.getBill().getProjectedBill(),
+				theProject.getDiff());
+		
+		/* Delete all materials and procedure steps for this 
+		 * project if there are any.*/
+		dbm.deleteMaterials(theProject.getTitle());
+		dbm.deleteTasks(theProject.getTitle());
+		
+		/* Put the fresh materials from the new updated project in the db.*/
+		for(Material m: theProject.getMaterials()) {
+			dbm.insertMaterial(theProject.getTitle(), m.getName(), m.getCost());
 		}
-		return null;
+		for(String step: theProject.getProcedure()) {
+			dbm.insertTask(theProject.getTitle(), step);
+		}
 	}
 }

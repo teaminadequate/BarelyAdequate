@@ -4,55 +4,31 @@
  */
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import database.databaseManager;
 
 /**
  * 
  * @author Gavin
  */
 public class Project {
-	/** An enum for the difficulty. */
-	enum Difficulty {
-		Easy, Medium, Hard;
-	}
-
 	/** The title of the project. */
 	private String myTitle;
-
 	/** A checklist of materials. */
 	private ArrayList<Material> myMaterials;
-	
 	/** The bill being affected by this project. */
 	private Bill myBill;
-	
-	/** The difficulty of the project. */
-	private Difficulty myDiff;
-	
-	/** The total cost of all the materials used in this project. */
-	private double myTotal;
-	
+	/** The difficulty of the project. (On a scale of 1-10).*/
+	private int myDiff;
 	/** A checklist of procedure steps needed to complete this project. */
 	private ArrayList<String> myProcedure;
 	
-	/** The database being used to represent the project. */
-	private databaseManager dbm;
-
 	/** Initializes a new blank project. */
-	public Project(databaseManager theDBM) {
+	public Project() {
 		myTitle = "";
 		myMaterials = new ArrayList<Material>();
 		myBill = new Bill();
-		myDiff = Difficulty.Easy;
-		myTotal = 0.0;
+		myDiff = 2;
 		myProcedure = new ArrayList<String>();
-		dbm = theDBM;
-		
 	}
 
 	/**
@@ -62,9 +38,29 @@ public class Project {
 	 */
 	public String getTitle() {
 		return myTitle;
-		
 	}
-
+	/**
+	 * Gets the list of materials.
+	 * @return and ArrayList of the materials for this project.
+	 */
+	public ArrayList<Material> getMaterials() {
+		return myMaterials;
+	}
+	/**
+	 * Gets the procedure.
+	 * @return and ArrayList of procedure steps(Strings).
+	 */
+	public ArrayList<String> getProcedure() {
+		return myProcedure;
+	}
+	/**
+	 * Gets the difficulty of the project.
+	 * 
+	 * @return returns the difficulty of the project (Scale of 1 to 10).
+	 */
+	public int getDiff() {
+		return myDiff;
+	}
 	/**
 	 * Sets the title of the project.
 	 * 
@@ -74,38 +70,26 @@ public class Project {
 		myTitle = theTitle;
 		
 	}
-
 	/**
 	 * Adds a material to the list of materials, as well as to the database.
 	 * 
 	 * @param theMaterial the material to be added to the list
 	 */
-	public void addMaterial(Material theMaterial) throws SQLException, ClassNotFoundException{
+	public void addMaterial(Material theMaterial) {
 		myMaterials.add(theMaterial);
-		myTotal += theMaterial.getCost();
-		dbm.insertMaterial(myTitle, theMaterial.getName(), theMaterial.getCost());
-		
 	}
-
 	/**
 	 * Removes a material from the list of materials.
 	 * 
 	 * @param theMaterialName the name of the material that you want to be removed
 	 */
-	public void removeMaterial(String theMaterialName) throws SQLException, ClassNotFoundException{
-		
+	public void removeMaterial(String theMaterialName) {
 		for (int i = 0; i < myMaterials.size(); i++) {
 			if (theMaterialName.equals(myMaterials.get(i).getName())) {
 				myMaterials.remove(i);
-				myTotal -= myMaterials.get(i).getCost();
-				dbm.deleteMaterial(theMaterialName);
-				
 			}
-			
 		}
-		
 	}
-
 	/**
 	 * The current bill of the project.
 	 * 
@@ -115,7 +99,6 @@ public class Project {
 		return myBill;
 		
 	}
-
 	/**
 	 * Sets the current bill for the project.
 	 * 
@@ -125,7 +108,6 @@ public class Project {
 		myBill.setCurrentBill(theBill);
 		
 	}
-
 	/**
 	 * Sets the projected bill of the project.
 	 * 
@@ -133,71 +115,65 @@ public class Project {
 	 */
 	public void setProjectedBill(double theBill) {
 		myBill.setProjectedBill(theBill);
-		
 	}
-
-	/**
-	 * Gets the difficulty of the project.
-	 * 
-	 * @return returns the difficulty of the project
-	 */
-	public Difficulty getDiff() {
-		return myDiff;
-		
-	}
-
 	/**
 	 * Sets the difficulty of the project.
 	 * 
 	 * @param theDiff the new difficulty of the project
 	 */
-	public void setDiff(Difficulty theDiff) {
-		myDiff = theDiff;
-		
+	public void setDiff(int theDiff) {
+		if (theDiff > 10) {
+			myDiff = 10;
+		} else if (theDiff < 1) {
+			myDiff = 1;
+		} else {
+			myDiff = theDiff;
+		}
 	}
-
 	/**
-	 * Gets the total cost of the bills.
+	 * Gets the total cost of the materials.
 	 * 
-	 * @return the total cost of the bills
+	 * @return the total cost of the materials
 	 */
 	public double getTotal() {
-		return myTotal;
-		
+		double total = 0;
+		for(Material m : myMaterials) {
+			total += m.getCost();
+		}
+		return total;
 	}
-
 	/**
 	 * Adds a step to the procedures list.
 	 * 
 	 * @param theStep the step to be added to the procedure list
 	 */
-	public void addStep(String theStep) throws SQLException, ClassNotFoundException {
+	public void addStep(String theStep) {
 		myProcedure.add(theStep);
-		dbm.insertTask(myTitle, theStep);
-		
 	}
-
 	/**
 	 * Adds a step to a specific part of the list.
 	 * 
 	 * @param theIndex the index where you want the list to be
 	 * @param theStep the step to be added to the procedure list
 	 */
-	public void addStep(int theIndex, String theStep) throws SQLException, ClassNotFoundException {
+	public void addStep(int theIndex, String theStep) {
 		myProcedure.add(theIndex, theStep);
-		dbm.insertTask(myTitle, theStep);
-		
 	}
-
 	/**
 	 * Removes a step.
 	 * 
 	 * @param theIndex the index of the step to be removed
 	 */
-	public void removeStep(int theIndex) throws SQLException, ClassNotFoundException {
+	public void removeStep(int theIndex) {
 		myProcedure.remove(theIndex);
-		dbm.deleteTask(theIndex);
-		
 	}
-	
+	public void setMaterials(ArrayList<Material> theMaterials) {
+		myMaterials = theMaterials;
+	}
+	public void setProcedure(ArrayList<String> theProcedure) {
+		myProcedure = theProcedure;
+	}
+	public String toString() {
+		return myTitle + getTotal();
+	}
 }

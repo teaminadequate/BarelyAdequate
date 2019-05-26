@@ -13,6 +13,7 @@ import model.User;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
@@ -146,7 +147,12 @@ public class GUI_START {
 		JButton logInButton = new JButton("Log In");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadedUser = new User(nameField.getText(), emailField.getText());
+				try {
+					loadedUser = new User(nameField.getText(), emailField.getText());
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -174,7 +180,6 @@ public class GUI_START {
 		JButton newButton = new JButton("New Project");
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadedProject = new Project(dbm);
 				//showHiddenProjectFields(true);
 			}
 		});

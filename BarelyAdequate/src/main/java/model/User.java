@@ -26,9 +26,14 @@ public class User {
 	public User(String theName, String theEmail) throws SQLException, ClassNotFoundException{
 		userName = theName;
 		userEmail = theEmail;
+		dbm = new databaseManager();
 		dbm.insertUser(theName, theEmail);
 		userProjects = new ArrayList<Project>();
-		
+		try {
+			userProjects = dbm.getUserProjects(theName);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Getter for the username.

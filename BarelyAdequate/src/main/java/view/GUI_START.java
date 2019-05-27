@@ -13,6 +13,9 @@ import model.User;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
@@ -26,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JToolBar;
 import java.awt.Button;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.UIManager;
 import javax.swing.ScrollPaneConstants;
@@ -153,8 +157,35 @@ public class GUI_START {
 		JButton logInButton = new JButton("Log In");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				loadedUser = new User(nameField.getText(), emailField.getText());
-				
+				databaseManager manager = new databaseManager();
+				List<String> list = null;
+				try {
+					list = manager.getUserList();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				if(!list.contains(nameField.getText())) {
+					int result = JOptionPane.showConfirmDialog(frame, "User Name not found."
+							  + "Would you like to create a new user?", null, JOptionPane.YES_NO_OPTION);
+					if(result == JOptionPane.YES_OPTION) {
+						try {
+							loadedUser = new User(nameField.getText(), emailField.getText());
+						} catch (ClassNotFoundException e2) {
+							e2.printStackTrace();
+						} catch (SQLException e2) {
+							e2.printStackTrace();
+						}
+						JOptionPane.showMessageDialog(frame, "Welcome, " + nameField.getText() + " you are logged in.");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(frame, "Welcome, " + nameField.getText() + " you are logged in.");
+					try {
+						loadedUser = new User(nameField.getName(), emailField.getName());
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		logInButton.setBounds(200, 220, 75, 20);

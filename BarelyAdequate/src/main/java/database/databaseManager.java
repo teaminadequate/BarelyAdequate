@@ -263,7 +263,7 @@ public class databaseManager {
 
 	public LinkedList<String> getUserList() throws SQLException, ClassNotFoundException {
 
-		String sql = "SELECT USERNAME, FROM users";
+		String sql = "SELECT USERNAME FROM users";
 
 		LinkedList<String> list = new LinkedList<String>();
 

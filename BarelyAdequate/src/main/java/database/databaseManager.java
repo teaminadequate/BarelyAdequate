@@ -225,20 +225,22 @@ public class databaseManager {
 		}
 	}
 
-	public void insertMaterial(String projectName, String materialName, double cost)
+	public void insertMaterial(String username, String projectName, String materialName, double cost)
 			throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO materials(PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?)";
+		String sql = "INSERT INTO materials(USERNAME,PROJECTNAME,MATERIALNAME,PRICE) VALUES(?,?,?,?)";
 
 		Connection conn = this.connect();
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 
-		pstmt.setString(1, projectName);
+		pstmt.setString(1, username);
+		
+		pstmt.setString(2, projectName);
 
-		pstmt.setString(2, materialName);
+		pstmt.setString(3, materialName);
 
-		pstmt.setDouble(3, cost);
+		pstmt.setDouble(4, cost);
 
 		pstmt.executeUpdate();
 	}

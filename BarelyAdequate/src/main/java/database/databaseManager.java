@@ -122,7 +122,7 @@ public class databaseManager {
 
 	public ArrayList<Material> getUserProjectMaterials(String userName, String projectName) 
 			throws SQLException, ClassNotFoundException {
-		String sql = "SELECT USERNAME, PROJECTNAME, MATERIALNAME FROM materials";
+		String sql = "SELECT USERNAME, PROJECTNAME, MATERIALNAME, PRICE FROM materials";
 
 		ArrayList<Material> materialsList = new ArrayList<Material>();
 

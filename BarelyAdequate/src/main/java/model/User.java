@@ -2,6 +2,9 @@ package model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import database.databaseManager;
 
@@ -23,11 +26,14 @@ public class User {
 	/**
 	 * Constructor to initialize fields.
 	 */
-	public User(String theName, String theEmail) throws SQLException, ClassNotFoundException{
+	public User(String theName, String theEmail) throws SQLException, ClassNotFoundException {
 		userName = theName;
 		userEmail = theEmail;
 		dbm = new databaseManager();
-		dbm.insertUser(theName, theEmail);
+		LinkedList<String> list = dbm.getUserList();
+		if(!list.contains(theName)) {
+			dbm.insertUser(userName, userEmail);
+		}
 		userProjects = new ArrayList<Project>();
 		try {
 			userProjects = dbm.getUserProjects(theName);
@@ -72,5 +78,8 @@ public class User {
 		for(String step: theProject.getProcedure()) {
 			dbm.insertTask(theProject.getTitle(), step);
 		}
+	}
+	public ArrayList<Project> getUserProjects() {
+		return userProjects;
 	}
 }

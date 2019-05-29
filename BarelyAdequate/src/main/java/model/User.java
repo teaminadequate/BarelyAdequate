@@ -67,7 +67,7 @@ public class User {
 		
 		/* Put the fresh materials from the new updated project in the db.*/
 		for(Material m: theProject.getMaterials()) {
-			dbm.insertMaterial(theProject.getTitle(), m.getName(), m.getCost());
+			dbm.insertMaterial(userName, theProject.getTitle(), m.getName(), m.getCost());
 		}
 		for(String step: theProject.getProcedure()) {
 			dbm.insertTask(theProject.getTitle(), step);

@@ -229,9 +229,9 @@ public class databaseManager {
 		
 	}
 
-	public void insertTask(String projectName, String task) throws SQLException, ClassNotFoundException {
+	public void insertTask(String userName, String projectName, String task) throws SQLException, ClassNotFoundException {
 
-		String sql = "INSERT INTO tasks(PROJECTNAME,TASKDESCRIPTION) VALUES(?,?)";
+		String sql = "INSERT INTO tasks(USERNAME,PROJECTNAME,TASKDESCRIPTION) VALUES(?,?,?)";
 
 		/*try (Connection connect = this.connect();
 
@@ -252,9 +252,11 @@ public class databaseManager {
 
 		PreparedStatement state = connect.prepareStatement(sql);
 
-		state.setString(1, projectName);
+		state.setString(1, userName);
+		
+		state.setString(2, projectName);
 
-		state.setString(2, task);
+		state.setString(3, task);
 		
 		state.executeUpdate();
 		

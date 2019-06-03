@@ -76,7 +76,7 @@ public class User {
 			dbm.insertMaterial(userName, theProject.getTitle(), m.getName(), m.getCost());
 		}
 		for(String step: theProject.getProcedure()) {
-			dbm.insertTask(theProject.getTitle(), step);
+			dbm.insertTask(userName, theProject.getTitle(), step);
 		}
 	}
 	public ArrayList<Project> getUserProjects() {

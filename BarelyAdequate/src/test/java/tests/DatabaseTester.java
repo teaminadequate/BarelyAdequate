@@ -316,9 +316,105 @@ class DatabaseTester {
 	@Test
 	void testInsertTask() throws ClassNotFoundException, SQLException {
 		
-		dbm.insertTask("userName", "projectName", "task");
+		dbm.insertTask(getAlphaNumericString(5), getAlphaNumericString(5), getAlphaNumericString(5));
 		
 	}
+
+	/**
+	 * Tests the deleteTask() method
+	 * 
+	 * @author Nicole
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * 
+	 */
+	@Test
+	void testDeleteTask() throws ClassNotFoundException, SQLException {
+		
+		dbm.deleteTasks("projectName");
+		
+	}
+	
+	/**
+	 * Tests the insertMaterial() method with a null username
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertMaterialNullUsername() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertMaterial(null, "projectName", "materialName", 0.0);
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests the insertMaterial() method with a null project name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertMaterialNullProjectName() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertMaterial("name", null, "materialName", 0.0);
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests the insertMaterial() method with a null material name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertMaterialNullMaterialName() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertMaterial("name", "projectName", null, 0.0);
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests the insertMaterial() method with a duplicate name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertMaterialDuplicate() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertMaterial("name", "projectName", "materialName", 0.0);
+			dbm.insertMaterial("name", "projectName", "materialName", 0.0);
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests the insertMaterial() method with proper parameters.
+	 * 
+	 * @author Nicole
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	@Test
+	void testInsertMaterial() throws ClassNotFoundException, SQLException {
+		
+		dbm.insertMaterial(getAlphaNumericString(5), getAlphaNumericString(5), 
+				getAlphaNumericString(5), 0.0);
+		
+	}
+	
 	
 	/**
 	 * Tests to make sure that the deleteProject methods throws an error if the string is null.

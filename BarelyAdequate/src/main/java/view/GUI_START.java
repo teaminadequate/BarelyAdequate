@@ -148,6 +148,12 @@ public class GUI_START {
 
 		panel.add(lblEmail);
 
+		// label to show the loaded user
+		JLabel loadedUserLabel = new JLabel();
+		loadedUserLabel.setVisible(false);
+		loadedUserLabel.setBounds(10, 0, 200, 40);
+		panel.add(loadedUserLabel);
+
 		JButton logInButton = new JButton("Log In");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -159,6 +165,8 @@ public class GUI_START {
 					cnfE.printStackTrace();
 				}
 				JOptionPane.showMessageDialog(frame, "Welcome, " + loadedUser.getName() + " you are logged in.");
+				loadedUserLabel.setText("Logged In: " + loadedUser.getName());
+				loadedUserLabel.setVisible(true);
 			}
 		});
 		logInButton.setBounds(200, 220, 75, 20);

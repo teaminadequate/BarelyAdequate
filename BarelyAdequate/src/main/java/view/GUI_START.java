@@ -233,9 +233,9 @@ public class GUI_START {
 		
 		taskScrollPane.setBounds(50, 200, 189, 123);
 		
-		taskScrollPane.setForeground(Color.WHITE);
-		
-		taskScrollPane.setBackground(Color.DARK_GRAY);
+		//taskScrollPane.setForeground(Color.WHITE);
+				
+		taskScrollPane.getViewport().setBackground(Color.DARK_GRAY);
 		
 		myProjectsPanel.add(taskScrollPane);
 		//Tasks
@@ -250,11 +250,13 @@ public class GUI_START {
 		
 		var materialsScrollPane = new JScrollPane();
 		
-		materialsScrollPane.setForeground(Color.WHITE);
+		//materialsScrollPane.setForeground(Color.WHITE);
 
-		materialsScrollPane.setBackground(Color.DARK_GRAY);
+		materialsScrollPane.getViewport().setBackground(Color.DARK_GRAY);
 
-		materialsScrollPane.setBounds(249, 49, 220, 274);		
+		materialsScrollPane.setBounds(249, 49, 220, 274);	
+		
+		materialsScrollPane.setOpaque(true);
 		
 		myProjectsPanel.add(materialsScrollPane);
 		//Materials
@@ -263,6 +265,7 @@ public class GUI_START {
 		newProjectButton.addActionListener(action -> {
 			dataEntry entry = new dataEntry();
 			dataEntry.main(new String[0]);
+			
 		});
 
 		newProjectButton.setForeground(Color.WHITE);

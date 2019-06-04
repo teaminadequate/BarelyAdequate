@@ -29,6 +29,7 @@ class DatabaseTester {
 	 * Tests the insertUser method to make sure that a user is inserted into the database properly.
 	 * This tests specifically if the username is null. Expects an exception to be thrown.
 	 * 
+	 * @author Nicole
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
@@ -44,6 +45,8 @@ class DatabaseTester {
 	/**
 	 * Tests the insertUser method to make sure that a user is inserted into the database properly.
 	 * This tests specifically if the email is null. Expects an exception to be thrown.
+	 * 
+	 * @author Nicole
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
@@ -59,6 +62,7 @@ class DatabaseTester {
 	/**
 	 * Tests to make sure a duplicate user is not added. 
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -74,6 +78,7 @@ class DatabaseTester {
 	/**
 	 * Inserts a randomly generated user into the database. 
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -91,6 +96,7 @@ class DatabaseTester {
 	/**
 	 * Checks to make sure that the list is null if a user does not exist in the database. 
 	 * 
+	 * @author Nicole
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
@@ -104,6 +110,7 @@ class DatabaseTester {
 	/**
 	 * Tests to make sure that it returns a list of projects since the user exists in the database.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -124,6 +131,7 @@ class DatabaseTester {
 	 * Tests the getUserProjectMaterials() method to make sure that if the name is null
 	 * it returns an empty list.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -139,6 +147,7 @@ class DatabaseTester {
 	/**
 	 * Tests the getUserProjectMaterials() method with null for the project name.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -153,6 +162,7 @@ class DatabaseTester {
 	/**
 	 * Tests the getUserProjectProcedures() with a null username.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -167,6 +177,7 @@ class DatabaseTester {
 	/**
 	 * Tests the getUserProjectProcedures() with a null project name.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -181,6 +192,7 @@ class DatabaseTester {
 	/**
 	 * Tests the the insertProject() method with username as null.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -197,6 +209,7 @@ class DatabaseTester {
 	/**
 	 * Tests the the insertProject() method with project name as null.
 	 * 
+	 * @author Nicole
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
@@ -210,11 +223,27 @@ class DatabaseTester {
 		
 	}
 	
+	/**
+	 * Tests the insertProject() method with valid parameters.
+	 * 
+	 * @author Nicole
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@Test
+	void testInsertProject() throws ClassNotFoundException, SQLException {
+		
+		dbm.insertProject(getAlphaNumericString(5), getAlphaNumericString(5), 
+				0.0, 0.0, 0);
+		
+	}
+	
 	// TO DO: NEGATIVE VALUES FOR insertProject() method
 	
 	/**
 	 * Tests insertProject() to add in values to the database properly.
 	 * 
+	 * @author Nicole
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
@@ -223,9 +252,84 @@ class DatabaseTester {
 		assertThrows(SQLException.class, () -> {
 			
 			dbm.insertProject("name", "projectName", 0.0, 0.0, 0);
+			dbm.insertProject("name", "projectName", 0.0, 0.0, 0);
 			
 		});
 		
+		
+	}
+	
+	/**
+	 * Tests insertTask() with a null project name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertTaskNullName() {
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertTask(null, "projectName", "taskName");
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests insertTask() with a null task name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertTaskNullProjectName() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertTask("name", null, "taskName");
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests insertTask() with a null task name.
+	 * 
+	 * @author Nicole
+	 */
+	@Test
+	void testInsertTaskNullTaskName() {
+		
+		assertThrows(SQLException.class, () -> {
+			
+			dbm.insertTask("name", "projectName", null);
+			
+		});
+		
+	}
+	
+	/**
+	 * Tests insertTask() with valid parameters.
+	 * 
+	 * @author Nicole
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@Test
+	void testInsertTask() throws ClassNotFoundException, SQLException {
+		
+		dbm.insertTask("userName", "projectName", "task");
+		
+	}
+	
+	/**
+	 * Tests to make sure that the deleteProject methods throws an error if the string is null.
+	 * 
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	@Test
+	void deleteProject() throws ClassNotFoundException, SQLException {
+		
+		dbm.deleteProject("projectName");
 		
 	}
 	
@@ -237,7 +341,7 @@ class DatabaseTester {
 	 * @author https://www.geeksforgeeks.org/generate-random-string-of-given-size-in-java/
 	 */
 
-    static String getAlphaNumericString(int n) 
+    private static String getAlphaNumericString(int n) 
     { 
   
         // chose a Character random from this String 

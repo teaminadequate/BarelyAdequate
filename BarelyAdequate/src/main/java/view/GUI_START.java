@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import database.databaseManager;
+import model.Material;
 import model.Project;
 import model.User;
 import javax.swing.ImageIcon;
@@ -223,6 +224,8 @@ public class GUI_START {
 
 		myProjectsPanel.add(lblCurrentBill);
 
+		//Tasks
+		//Casey
 		JLabel lblProcedure = new JLabel("Tasks:");
 
 		lblProcedure.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 14));
@@ -232,17 +235,44 @@ public class GUI_START {
 		lblProcedure.setBounds(47, 189, 226, 10);
 
 		myProjectsPanel.add(lblProcedure);
-
+		
+		var taskScrollPane = new JScrollPane();
+		
+		taskScrollPane.setBounds(50, 200, 189, 123);
+		
+		//taskScrollPane.setForeground(Color.WHITE);
+				
+		taskScrollPane.getViewport().setBackground(Color.DARK_GRAY);
+		
+		myProjectsPanel.add(taskScrollPane);
+		//Tasks
+		
+		//Materials
+		//Casey
 		JLabel lblMaterials = new JLabel("Materials:");
 
 		lblMaterials.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 14));
 
 		lblMaterials.setBounds(256, 35, 223, 10);
+		
+		var materialsScrollPane = new JScrollPane();
+		
+		//materialsScrollPane.setForeground(Color.WHITE);
+
+		materialsScrollPane.getViewport().setBackground(Color.DARK_GRAY);
+
+		materialsScrollPane.setBounds(249, 49, 220, 274);	
+		
+		materialsScrollPane.setOpaque(true);
+		
+		myProjectsPanel.add(materialsScrollPane);
+		//Materials
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
 			dataEntry entry = new dataEntry();
 			dataEntry.main(new String[0]);
+			
 		});
 
 		newProjectButton.setForeground(Color.WHITE);
@@ -260,6 +290,7 @@ public class GUI_START {
 		JButton btnLoadProject = new JButton("Load Project");
 		btnLoadProject.addActionListener(action -> {
 			loadEntry.main(new String[0]);
+			
 		});
 
 		projectedBillField = new JTextField();
@@ -289,25 +320,7 @@ public class GUI_START {
 			dataEntry.main(new String[0]);
 		});
 
-		JTextArea tasksTextArea = new JTextArea();
 
-		tasksTextArea.setForeground(Color.WHITE);
-
-		tasksTextArea.setBackground(Color.DARK_GRAY);
-
-		tasksTextArea.setBounds(50, 200, 189, 123);
-
-		myProjectsPanel.add(tasksTextArea);
-
-		JTextArea materialsTextArea = new JTextArea();
-
-		materialsTextArea.setForeground(Color.WHITE);
-
-		materialsTextArea.setBackground(Color.DARK_GRAY);
-
-		materialsTextArea.setBounds(249, 49, 220, 274);
-
-		myProjectsPanel.add(materialsTextArea);
 
 		btnEditProject.setForeground(new Color(255, 255, 255));
 
@@ -394,5 +407,70 @@ public class GUI_START {
 		lblNewLabel.setBounds(0, 89, 479, 245);
 		panel_3.add(lblNewLabel);
 
+	}
+	
+	/**
+	 * Updates the task fields.
+	 * @author Casey Hogan
+	 */
+	private void updateTasks(JPanel theProjectsPanel, JScrollPane theScrollPane) {
+		//Casey task pane code.
+		var tasksTextArea = new JTextArea();
+
+		tasksTextArea.setForeground(Color.WHITE);
+
+		tasksTextArea.setBackground(Color.DARK_GRAY);
+
+		tasksTextArea.setBounds(50, 200, 189, 123);
+		
+
+		var tasks = loadedProject.getProcedure();
+		var count = 1;
+		for(var t : tasks) {
+			StringBuilder sb = new StringBuilder(count);
+			sb.append(":  ");
+			sb.append(t);
+			tasksTextArea.append(sb.toString());
+			count++;
+		}
+		
+		theScrollPane.add(tasksTextArea);
+
+		theProjectsPanel.repaint();
+		//end of code.
+	}
+	
+	/**
+	 * Updates the Materials
+	 * @author Casey Hogan
+	 */
+	private void updateMaterials(JPanel theProjectsPanel, JScrollPane theScrollPane) {
+		//Casey task pane code.
+		theScrollPane.removeAll();
+		
+		JTextArea materialsTextArea = new JTextArea();
+		
+		materialsTextArea.setForeground(Color.WHITE);
+
+		materialsTextArea.setBackground(Color.DARK_GRAY);
+
+		materialsTextArea.setBounds(249, 49, 220, 274);		
+		
+		var materials = loadedProject.getMaterials();
+		
+		for(Material mat : materials) {
+			StringBuilder sb = new StringBuilder("Name: ");
+			sb.append(mat.getName());
+			sb.append(" Costs:");
+			sb.append(mat.getCost());
+			sb.append("\n");
+			materialsTextArea.append(sb.toString());
+		}
+		
+		theScrollPane.add(materialsTextArea);
+
+		theScrollPane.repaint();
+		theProjectsPanel.repaint();
+		//end of code.
 	}
 }

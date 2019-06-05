@@ -9,9 +9,9 @@ import javax.swing.JOptionPane;
 import database.databaseManager;
 
 /**
- * Stores the user's information
- * @author Gavin
- *
+ * Stores the user's information and connects it to a database manager.
+ * @author Gavin Montes
+ * 
  */
 public class User {
 	/** A list of the user's projects. */
@@ -68,8 +68,8 @@ public class User {
 		
 		/* Delete all materials and procedure steps for this 
 		 * project if there are any.*/
-		dbm.deleteMaterials(theProject.getTitle());
-		dbm.deleteTasks(theProject.getTitle());
+		dbm.deleteMaterials(userName, theProject.getTitle());
+		dbm.deleteTasks(userName, theProject.getTitle());
 		
 		/* Put the fresh materials from the new updated project in the db.*/
 		for(Material m: theProject.getMaterials()) {

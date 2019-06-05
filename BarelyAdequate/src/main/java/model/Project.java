@@ -164,8 +164,12 @@ public class Project {
 	 * 
 	 * @param theIndex the index of the step to be removed
 	 */
-	public void removeStep(int theIndex) {
-		myProcedure.remove(theIndex);
+	public void removeStep(String theStepName) {
+		for (int i = 0; i < myMaterials.size(); i++) {
+			if (theStepName.equals(myProcedure.get(i))) {
+				myMaterials.remove(i);
+			}
+		}
 	}
 	public void setMaterials(ArrayList<Material> theMaterials) {
 		myMaterials = theMaterials;

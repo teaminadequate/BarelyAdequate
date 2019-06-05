@@ -331,7 +331,7 @@ class DatabaseTester {
 	@Test
 	void testDeleteTask() throws ClassNotFoundException, SQLException {
 		
-		dbm.deleteTasks("projectName");
+		dbm.deleteTasks("name", "projectName");
 		
 	}
 	
@@ -415,6 +415,20 @@ class DatabaseTester {
 		
 	}
 	
+	/**
+	 * Tests the deleteMaterial() method with proper parameters
+	 * 
+	 * @author Nicole
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	@Test
+	void testDeleteMaterial() throws ClassNotFoundException, SQLException {
+		
+		dbm.deleteMaterials("name", "projectName");
+		
+	}
+	
 	
 	/**
 	 * Tests to make sure that the deleteProject methods throws an error if the string is null.
@@ -423,7 +437,7 @@ class DatabaseTester {
 	 * @throws ClassNotFoundException 
 	 */
 	@Test
-	void deleteProject() throws ClassNotFoundException, SQLException {
+	void testDeleteProject() throws ClassNotFoundException, SQLException {
 		
 		dbm.deleteProject("projectName");
 		

@@ -270,9 +270,7 @@ public class GUI_START {
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
-			dataEntry entry = new dataEntry();
-			dataEntry.main(new String[0]);
-			
+			dataEntry entry = new dataEntry(loadedUser);
 		});
 
 		newProjectButton.setForeground(Color.WHITE);
@@ -281,16 +279,9 @@ public class GUI_START {
 
 		newProjectButton.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
 
-		newProjectButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
 		JButton btnLoadProject = new JButton("Load Project");
 		btnLoadProject.addActionListener(action -> {
-			loadEntry.main(new String[0]);
-			
+			loadEntry entry = new loadEntry(loadedUser);
 		});
 
 		projectedBillField = new JTextField();
@@ -317,7 +308,7 @@ public class GUI_START {
 		JButton btnEditProject = new JButton("Edit Project");
 
 		btnEditProject.addActionListener(action -> {
-			dataEntry.main(new String[0]);
+			dataEntry entry = new dataEntry(loadedUser);
 		});
 
 

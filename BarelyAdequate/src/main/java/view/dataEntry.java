@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+
+import model.User;
+
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -33,12 +36,13 @@ public class dataEntry extends JFrame {
 	private JButton removeTaskBtn;
 	private JLabel difficultyLbl;
 	private JTextField currentBillField;
+	private User user;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					dataEntry window = new dataEntry();
+					dataEntry window = new dataEntry(new User("nicole67","nguob@uw.edu"));
 					window.dataEntryFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,11 +51,12 @@ public class dataEntry extends JFrame {
 		});
 	}
 
-	public dataEntry() {
-		initialize();
+	public dataEntry(User theUser) {
+		user = theUser;
+		initialize(theUser);
 	}
 
-	private void initialize() {
+	private void initialize(User theUser) {
 		dataEntryFrame = new JFrame();
 		dataEntryFrame.setTitle("Please enter project data:");
 		dataEntryFrame.setBounds(100, 100, 432, 282);
@@ -183,5 +188,6 @@ public class dataEntry extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(dataEntry.class.getResource("/resources/background.png")));
 		lblNewLabel.setBounds(0, -1, 459, 284);
 		dataEntryFrame.getContentPane().add(lblNewLabel);
+		dataEntryFrame.setVisible(true);
 	}
 }

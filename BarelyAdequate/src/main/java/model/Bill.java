@@ -39,18 +39,6 @@ public class Bill {
 	}
 
 	/**
-	 * Returns a formatted amount of time that the project will take to return on
-	 * investment.
-	 * @author Gavin Montes
-	 * @return returns the projected return on investment.
-	 */
-	public String getROI() {
-		StringBuilder sb = new StringBuilder();
-		// TODO
-		return "";
-	}
-
-	/**
 	 * Returns the monthly savings effective on project completion.
 	 * @author Gavin Montes
 	 * @return the monthly savings.

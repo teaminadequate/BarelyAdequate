@@ -191,4 +191,19 @@ public class Project {
 	public void setProcedure(ArrayList<String> theProcedure) {
 		myProcedure = theProcedure;
 	}
+	/**
+	 * Returns a formatted amount of time that the project will take to return on
+	 * investment.
+	 * @author Gavin Montes
+	 * @return returns the projected return on investment.
+	 */
+	public String getROI() {
+		double total = getTotal();
+		int months = 0;
+		while(total > 0) {
+			total -= myBill.getMonthlySavings();
+			months++;
+		}
+		return months + " months";
+	}
 }

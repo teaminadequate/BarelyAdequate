@@ -41,6 +41,8 @@ public class dataEntry extends JFrame {
 	private JButton removeTaskBtn;
 	private JLabel difficultyLbl;
 	private JTextField currentBillField;
+	private JTextField projectedNewBillField;
+	private JSlider difficultySlider;
 	private User user;
 	private Project project;
 	private GUI_START mainGUI;
@@ -62,22 +64,28 @@ public class dataEntry extends JFrame {
 //	}
 
 	public dataEntry(GUI_START theGUI) {		
+		this(theGUI, new Project());
+	}
+
+	public dataEntry(GUI_START theGUI, Project theProject) {		
 		mainGUI = theGUI;
-		user = mainGUI.getUser();
+		project = theProject;
+		user = theGUI.getUser();
 		initialize();
 	}
 
 	public void initialize() {
-		project = new Project();
+		
 		
 		dataEntryFrame = new JFrame();
+		
+		
 		dataEntryFrame.setTitle("Please enter project data:");
 		dataEntryFrame.setBounds(100, 100, 432, 282);
 		dataEntryFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		dataEntryFrame.getContentPane().setLayout(null);
 		
-		
-		
+	
 		lblTask = new JLabel("Tasks:");
 		lblTask.setForeground(Color.BLACK);
 		lblTask.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
@@ -87,10 +95,12 @@ public class dataEntry extends JFrame {
 		difficultyLbl = new JLabel("Project Difficulty:");
 		difficultyLbl.setForeground(Color.BLACK);
 		difficultyLbl.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
-		difficultyLbl.setBounds(47, 183, 130, 20);
+		difficultyLbl.setBounds(47, 183, 100, 20);
 		dataEntryFrame.getContentPane().add(difficultyLbl);
 		
-		JSlider difficultySlider = new JSlider(1, 3);
+		difficultySlider = new JSlider(0, 10);
+		difficultySlider.setMajorTickSpacing(1);
+		difficultySlider.setSnapToTicks(true);
 		difficultySlider.setForeground(Color.GREEN);
 		difficultySlider.setBackground(Color.DARK_GRAY);
 		difficultySlider.setBounds(47, 206, 146, 18);
@@ -116,7 +126,7 @@ public class dataEntry extends JFrame {
 		projectedNewBillLabel.setBounds(200, 145, 130, 20);
 		dataEntryFrame.getContentPane().add(projectedNewBillLabel);
 		
-		JTextField projectedNewBillField = new JTextField("$");
+		projectedNewBillField = new JTextField("$");
 		projectedNewBillField.setForeground(Color.WHITE);
 		projectedNewBillField.setColumns(10);
 		projectedNewBillField.setBackground(Color.DARK_GRAY);
@@ -198,11 +208,12 @@ public class dataEntry extends JFrame {
 		lblProjectTitle.setBounds(47, 11, 130, 20);
 		dataEntryFrame.getContentPane().add(lblProjectTitle);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon(dataEntry.class.getResource("/resources/background.png")));
-		lblNewLabel.setBounds(0, -1, 459, 284);
-		dataEntryFrame.getContentPane().add(lblNewLabel);
 		
+		
+		
+		if(!project.getTitle().equals("")) {
+			doPreset();
+		}
 		
 		
 		JButton saveButton = new JButton("Save");
@@ -221,7 +232,6 @@ public class dataEntry extends JFrame {
 				try {
 					user.addProject(project);
 				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				mainGUI.setProject(project);
@@ -232,7 +242,31 @@ public class dataEntry extends JFrame {
 		saveButton.setBounds(225, 195, 140, 35);
 		saveButton.setBackground(Color.DARK_GRAY);
 		saveButton.setForeground(Color.WHITE);
+		
+		
 		dataEntryFrame.getContentPane().add(saveButton);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(dataEntry.class.getResource("/resources/background.png")));
+		lblNewLabel.setBounds(0, -1, 459, 284);
+		dataEntryFrame.getContentPane().add(lblNewLabel);
 		dataEntryFrame.setVisible(true);
+		
+		
+	}
+	/**
+	 * @author Gavin Montes
+	 * If we are editing a project, set preset the values in the fields to the project's values.
+	 */
+	private void doPreset() {
+		projectNameField.setText(project.getTitle());
+		String tasks = "";
+		for(String s : project.getProcedure()) {
+			tasks = tasks + s + "\n";
+		}
+		taskDescriptionTextArea.setText(tasks);
+		currentBillField.setText(Double.toString(project.getBill().getCurrentBill()));
+		projectedNewBillField.setText(Double.toString(project.getBill().getProjectedBill()));
+		difficultySlider.setValue(project.getDiff());
 	}
 }

@@ -46,4 +46,11 @@ public class Material {
 	public double getCost() {
 		return myCost;
 	}
+	/**
+	 * @author Gavin Montes
+	 * Returns a string representation of this material
+	 */
+	public String toString() {
+		return "$" + Double.toString(getCost()) + "\t" + getName();
+	}
 }

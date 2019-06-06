@@ -73,6 +73,9 @@ public class GUI_START {
 	private JLabel lblDiff;
 	private JSlider diffSlider;
 	private JLabel lblMaterials;
+	private JPanel myProjectsPanel;
+	private JTextArea materialsTextArea;
+	private JTextArea tasksTextArea;
 	
 	/**
 	 * Launch the app..
@@ -132,7 +135,7 @@ public class GUI_START {
 		panel.setLayout(null);
 
 		// Panel for my project tabs
-		JPanel myProjectsPanel = new JPanel(null);
+		myProjectsPanel = new JPanel(null);
 
 		tabbedPanel.addTab("My Projects", null, myProjectsPanel, null);
 		
@@ -180,6 +183,11 @@ public class GUI_START {
 		loadedUserLabel.setBounds(10, 0, 200, 40);
 		panel.add(loadedUserLabel);
 
+		JButton btnLoadProject = new JButton("Load Project");
+		btnLoadProject.addActionListener(action -> {
+			loadEntry entry = new loadEntry(this);
+		});
+		
 		JButton logInButton = new JButton("Log In");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -194,6 +202,9 @@ public class GUI_START {
 				loadedUserLabel.setText("Logged In: " + loadedUser.getName());
 				loadedUserLabel.setVisible(true);
 				tabbedPanel.setEnabledAt(1, true);
+				if(loadedUser.getUserProjects().isEmpty()) {
+					btnLoadProject.setEnabled(false);
+				}
 			}
 		});
 		logInButton.setBounds(200, 220, 75, 20);
@@ -265,15 +276,23 @@ public class GUI_START {
 
 		myProjectsPanel.add(lblProcedure);
 
+		tasksTextArea = new JTextArea();
+
+		tasksTextArea.setForeground(Color.WHITE);
+
+		tasksTextArea.setBackground(Color.DARK_GRAY);
+
+		tasksTextArea.setBounds(50, 200, 189, 123);
+		
 		taskScrollPane = new JScrollPane();
 
 		taskScrollPane.setBounds(50, 200, 189, 123);
 
-		// taskScrollPane.setForeground(Color.WHITE);
-
 		taskScrollPane.getViewport().setBackground(Color.DARK_GRAY);
 		
 		taskScrollPane.setForeground(Color.WHITE);
+		
+		taskScrollPane.setOpaque(false);
 		
 		taskScrollPane.setVisible(false);
 
@@ -289,14 +308,20 @@ public class GUI_START {
 		lblMaterials.setBounds(256, 35, 223, 10);
 		
 		lblMaterials.setVisible(false);
+		
+		materialsTextArea = new JTextArea();
 
+		materialsTextArea.setForeground(Color.WHITE);
+
+		materialsTextArea.setBackground(Color.DARK_GRAY);
+
+		materialsTextArea.setBounds(249, 49, 220, 274);
+		
 		materialsScrollPane = new JScrollPane();
 
-		// materialsScrollPane.setForeground(Color.WHITE);
+		materialsScrollPane.setForeground(Color.WHITE);
 
 		materialsScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-		
-		materialsScrollPane.getViewport().setForeground(Color.WHITE);
 
 		materialsScrollPane.setBounds(249, 49, 220, 274);
 
@@ -317,11 +342,6 @@ public class GUI_START {
 		newProjectButton.setBackground(Color.DARK_GRAY);
 
 		newProjectButton.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
-
-		JButton btnLoadProject = new JButton("Load Project");
-		btnLoadProject.addActionListener(action -> {
-			loadEntry entry = new loadEntry(this);
-		});
 
 		projectedBillField = new JTextField();
 		projectedBillField.setColumns(10);
@@ -354,7 +374,7 @@ public class GUI_START {
 
 		// TODO
 		btnEditProject.addActionListener(action -> {
-			dataEntry entry = new dataEntry(this);
+			dataEntry entry = new dataEntry(this, loadedProject);
 		});
 
 		btnEditProject.setForeground(new Color(255, 255, 255));
@@ -463,15 +483,9 @@ public class GUI_START {
 	 * 
 	 * @author Casey Hogan
 	 */
-	private void updateTasks(JPanel theProjectsPanel, JScrollPane theScrollPane) {
+	private void updateTasks(JScrollPane theScrollPane) {
 		// Casey task pane code.
-		var tasksTextArea = new JTextArea();
-
-		tasksTextArea.setForeground(Color.WHITE);
-
-		tasksTextArea.setBackground(Color.DARK_GRAY);
-
-		tasksTextArea.setBounds(50, 200, 189, 123);
+		
 
 		var tasks = loadedProject.getProcedure();
 		var count = 1;
@@ -479,13 +493,14 @@ public class GUI_START {
 			StringBuilder sb = new StringBuilder(count);
 			sb.append(":  ");
 			sb.append(t);
+			sb.append("\n");
 			tasksTextArea.append(sb.toString());
 			count++;
 		}
 
 		theScrollPane.add(tasksTextArea);
 
-		theProjectsPanel.repaint();
+		myProjectsPanel.repaint();
 		// end of code.
 	}
 
@@ -494,33 +509,21 @@ public class GUI_START {
 	 * 
 	 * @author Casey Hogan
 	 */
-	private void updateMaterials(JPanel theProjectsPanel, JScrollPane theScrollPane) {
-		// Casey task pane code.
+	private void updateMaterials(JScrollPane theScrollPane) {
+		//// Casey task pane code.
 		theScrollPane.removeAll();
-
-		JTextArea materialsTextArea = new JTextArea();
-
-		materialsTextArea.setForeground(Color.WHITE);
-
-		materialsTextArea.setBackground(Color.DARK_GRAY);
-
-		materialsTextArea.setBounds(249, 49, 220, 274);
-
-		var materials = loadedProject.getMaterials();
-
-		for (Material mat : materials) {
-			StringBuilder sb = new StringBuilder("Name: ");
-			sb.append(mat.getName());
-			sb.append(" Costs:");
-			sb.append(mat.getCost());
-			sb.append("\n");
-			materialsTextArea.append(sb.toString());
+		
+		String materials = "";
+		for(Material m : loadedProject.getMaterials()) {
+			materials = m.toString() + "\n";
 		}
-
+		materials += "TOTAL: " + Double.toString(loadedProject.getTotal());
+		materialsTextArea.setText(materials);
+		
 		theScrollPane.add(materialsTextArea);
 
-		theScrollPane.repaint();
-		theProjectsPanel.repaint();
+		//theScrollPane.repaint();
+		//myProjectsPanel.repaint();
 		// end of code.
 	}
 	/**
@@ -532,8 +535,10 @@ public class GUI_START {
 		lblPostBill.setVisible(true);
 		lblCurrentBill.setVisible(true);
 		lblProcedure.setVisible(true);
+		updateTasks(taskScrollPane);
 		taskScrollPane.setVisible(true);
 		lblMaterials.setVisible(true);
+		updateMaterials(materialsScrollPane);
 		materialsScrollPane.setVisible(true);
 		
 		projectedBillField.setText(Double.toString(loadedProject.getBill().getProjectedBill()));

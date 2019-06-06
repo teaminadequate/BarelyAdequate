@@ -73,6 +73,7 @@ public class loadEntry {
 		for (int i = 0; i < projects.length; i++) {
 			projects[i] = userProjects.get(i).getTitle();
 		}
+		project = userProjects.get(0);
 
 		comboBox = new JComboBox(projects);
 		comboBox.setForeground(Color.WHITE);
@@ -91,10 +92,8 @@ public class loadEntry {
 					Project currentProject = userProjects.get(i);
 					if (currentProject.getTitle().equals(selectedProjectName)) {
 						project = currentProject;
-					}
-					
+					}	
 				}
-
 			}
 		});
 		
@@ -105,11 +104,7 @@ public class loadEntry {
 		lblPleaseSelectA.setBounds(43, 0, 223, 38);
 		frame.getContentPane().add(lblPleaseSelectA);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(0, 0, 434, 261);
-		lblNewLabel.setIcon(new ImageIcon(loadEntry.class.getResource("/resources/background.png")));
-		frame.getContentPane().add(lblNewLabel);
-		frame.setVisible(true);
+		
 		
 		JButton loadButton = new JButton("Load");
 		loadButton.addActionListener(new ActionListener() {
@@ -119,13 +114,17 @@ public class loadEntry {
 				frame.setVisible(false);
 			}
 		});
-		loadButton.setBounds(75, 175, 140, 35);
+		loadButton.setBounds(75, 168, 140, 35);
 		loadButton.setBackground(Color.DARK_GRAY);
 		loadButton.setForeground(Color.WHITE);
 		loadButton.setVisible(true);
 		frame.add(loadButton);
-		frame.revalidate();
-		frame.repaint();
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(0, 0, 434, 261);
+		lblNewLabel.setIcon(new ImageIcon(loadEntry.class.getResource("/resources/background.png")));
+		frame.getContentPane().add(lblNewLabel);
+		frame.setVisible(true);
 	}
 
 	public void addScroller(JComboBox<?> comboBox) {

@@ -43,6 +43,7 @@ public class dataEntry extends JFrame {
 	private JTextField currentBillField;
 	private User user;
 	private Project project;
+	private GUI_START mainGUI;
 	
 	private ArrayList<Material> materials = new ArrayList<Material>();
 
@@ -60,7 +61,10 @@ public class dataEntry extends JFrame {
 //		});
 //	}
 
-	public dataEntry() {		
+	public dataEntry(GUI_START theGUI) {		
+		mainGUI = theGUI;
+		user = mainGUI.getUser();
+		initialize();
 	}
 
 	public void initialize() {
@@ -74,7 +78,7 @@ public class dataEntry extends JFrame {
 		
 		
 		
-		lblTask = new JLabel("Task:");
+		lblTask = new JLabel("Tasks:");
 		lblTask.setForeground(Color.BLACK);
 		lblTask.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
 		lblTask.setBounds(47, 95, 130, 20);
@@ -164,8 +168,10 @@ public class dataEntry extends JFrame {
 		btnAdd = new JButton("Add\r\n");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				project.addMaterial(new Material(materialNameField.getText(),
-						Double.parseDouble(costField.getText().replace("$", ""))));				
+				project.addMaterial(new Material(materialNameField.getText(), 
+						Double.parseDouble(costField.getText().replace("$", ""))));	
+				materialNameField.setText("");
+				costField.setText("$");
 			}
 		});
 		btnAdd.setForeground(Color.WHITE);
@@ -210,27 +216,23 @@ public class dataEntry extends JFrame {
 				project.setMaterials(materials);
 				project.setProcedure(tasks);
 				project.setCurrentBill(Double.parseDouble(currentBillField.getText().replace("$", "")));
+				project.setProjectedBill(Double.parseDouble(projectedNewBillField.getText().replace("$", "")));
 				project.setTitle(projectNameField.getText());
 				try {
 					user.addProject(project);
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (SQLException e) {
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				mainGUI.setProject(project);
+				mainGUI.aProjectHasBeenLoaded();
+				dataEntryFrame.setVisible(false);
 			}
 		});
 		saveButton.setBounds(225, 195, 140, 35);
 		saveButton.setBackground(Color.DARK_GRAY);
 		saveButton.setForeground(Color.WHITE);
 		dataEntryFrame.getContentPane().add(saveButton);
-	}
-	
-	public void start() {
-		this.dataEntryFrame.setVisible(true);
-	}
-	
-	public void setUser(User theUser) {
-		user = theUser;
+		dataEntryFrame.setVisible(true);
 	}
 }

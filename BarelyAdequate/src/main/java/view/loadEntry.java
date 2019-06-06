@@ -22,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -107,6 +110,22 @@ public class loadEntry {
 		lblNewLabel.setIcon(new ImageIcon(loadEntry.class.getResource("/resources/background.png")));
 		frame.getContentPane().add(lblNewLabel);
 		frame.setVisible(true);
+		
+		JButton loadButton = new JButton("Load");
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mainGUI.setProject(project);
+				mainGUI.aProjectHasBeenLoaded();
+				frame.setVisible(false);
+			}
+		});
+		loadButton.setBounds(75, 175, 140, 35);
+		loadButton.setBackground(Color.DARK_GRAY);
+		loadButton.setForeground(Color.WHITE);
+		loadButton.setVisible(true);
+		frame.add(loadButton);
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	public void addScroller(JComboBox<?> comboBox) {
@@ -128,9 +147,5 @@ public class loadEntry {
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
-	}
-	
-	private void load() {
-		mainGUI.setProject(project);
 	}
 }

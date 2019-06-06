@@ -200,9 +200,9 @@ public class databaseManager {
 		
 		PreparedStatement state = connect.prepareStatement(sql);
 		
-		state.setString(1, projectName);
+		state.setString(1, userName);
 
-		state.setString(2, userName);
+		state.setString(2, projectName);
 
 		state.setDouble(3, preBill);
 
@@ -211,7 +211,6 @@ public class databaseManager {
 		state.setInt(5, diff);
 
 		state.executeUpdate();
-		
 	}
 	/**
 	 * Removes a project of the given name from the db 
@@ -221,14 +220,16 @@ public class databaseManager {
 	 * @throws SQLException if the connection/ deletion fails
 	 * @throws ClassNotFoundException if the connection fails.
 	 */
-	public void deleteProject(String projectName) throws SQLException, ClassNotFoundException {
-		String sql = "DELETE FROM projects WHERE PROJECTNAME  = ?";
+	public void deleteProject(String userName, String projectName) throws SQLException, ClassNotFoundException {
+		String sql = "DELETE FROM projects WHERE USERNAME = ? AND PROJECTNAME  = ?";
 		
 		Connection connect = this.connect();
 
 		PreparedStatement state = connect.prepareStatement(sql);
 
-		state.setString(1, projectName);
+		state.setString(1, userName);
+		
+		state.setString(2, projectName);
 
 		state.executeUpdate();
 		
@@ -267,13 +268,15 @@ public class databaseManager {
 	 */
 	public void deleteTasks(String userName, String projectName) throws ClassNotFoundException, SQLException {
 
-		String sql = "DELETE FROM tasks WHERE (USERNAME,PROJECTNAME)  = (?,?)";
+		String sql = "DELETE FROM tasks WHERE USERNAME = ? AND PROJECTNAME = ?";
 		
 		Connection connect = this.connect();
 
 		PreparedStatement state = connect.prepareStatement(sql);
+		
+		state.setString(1, userName);
 
-	    state.setString(1, projectName);
+	    state.setString(2, projectName);
 
 	    state.executeUpdate();
 	}
@@ -315,13 +318,15 @@ public class databaseManager {
 	 */
 	public void deleteMaterials(String userName, String projectName) throws ClassNotFoundException, SQLException {
 
-		String sql = "DELETE FROM materials WHERE (USERNAME,PROJECTNAME) = (?,?)";
+		String sql = "DELETE FROM materials WHERE (USERNAME = ? AND PROJECTNAME = ?)";
 		
 		Connection conn = this.connect();
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, userName);
 
-		pstmt.setString(1, projectName);
+		pstmt.setString(2, projectName);
 
 		pstmt.executeUpdate();
 	}

@@ -66,6 +66,7 @@ public class User {
 	 */
 	public void addProject(Project theProject) throws ClassNotFoundException, SQLException {
 		userProjects.add(theProject);
+		dbm.deleteProject(userName, theProject.getTitle());
 		dbm.insertProject(userName, theProject.getTitle(), 
 				theProject.getBill().getCurrentBill(), theProject.getBill().getProjectedBill(),
 				theProject.getDiff());

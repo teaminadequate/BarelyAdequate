@@ -61,9 +61,22 @@ public class GUI_START {
 	private JTextField InvestmentField;
 	private JTextField projectedBillField;
 	private JTextField CurrentBillField;
-
+	
+	private JTabbedPane tabbedPanel;
+	private JLabel lblTitle;
+	private JLabel lblPostBill;
+	private JLabel lblCurrentBill;
+	private JLabel lblProcedure;
+	private JScrollPane taskScrollPane;
+	private JScrollPane materialsScrollPane;
+	private JButton btnEditProject;
+	private JLabel lblDiff;
+	private JSlider diffSlider;
+	private JLabel lblMaterials;
+	
 	/**
 	 * Launch the app..
+	 * 
 	 * @author Kyle Bittner
 	 */
 	public static void main(String[] args) {
@@ -81,6 +94,7 @@ public class GUI_START {
 
 	/**
 	 * Initialize...
+	 * 
 	 * @autho Kyle Bittner
 	 */
 	public GUI_START() {
@@ -89,6 +103,7 @@ public class GUI_START {
 
 	/**
 	 * setup gui all one method (because YOLO)
+	 * 
 	 * @author Kyle Bittner
 	 */
 	private void setup() {
@@ -103,7 +118,7 @@ public class GUI_START {
 
 		frame.getContentPane().setLayout(null);
 
-		JTabbedPane tabbedPanel = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPanel = new JTabbedPane(JTabbedPane.TOP);
 
 		tabbedPanel.setBounds(0, 0, 484, 362);
 
@@ -115,6 +130,13 @@ public class GUI_START {
 		tabbedPanel.addTab("Home", null, panel, null);
 
 		panel.setLayout(null);
+
+		// Panel for my project tabs
+		JPanel myProjectsPanel = new JPanel(null);
+
+		tabbedPanel.addTab("My Projects", null, myProjectsPanel, null);
+		
+		tabbedPanel.setEnabledAt(1, false);
 
 		nameField = new JTextField();
 		nameField.addActionListener(new ActionListener() {
@@ -171,6 +193,7 @@ public class GUI_START {
 				JOptionPane.showMessageDialog(frame, "Welcome, " + loadedUser.getName() + " you are logged in.");
 				loadedUserLabel.setText("Logged In: " + loadedUser.getName());
 				loadedUserLabel.setVisible(true);
+				tabbedPanel.setEnabledAt(1, true);
 			}
 		});
 		logInButton.setBounds(200, 220, 75, 20);
@@ -188,12 +211,7 @@ public class GUI_START {
 
 //-----------------------MY PROJECTS TAB----------------------------------
 
-		// Panel for my project tabs
-		JPanel myProjectsPanel = new JPanel(null);
-
-		tabbedPanel.addTab("My Projects", null, myProjectsPanel, null);
-
-		JLabel lblTitle = new JLabel("Title would go here");
+		lblTitle = new JLabel("Title would go here");
 
 		lblTitle.setForeground(Color.DARK_GRAY);
 
@@ -202,20 +220,24 @@ public class GUI_START {
 		lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
 
 		lblTitle.setBounds(50, 22, 223, 36);
+		
+		lblTitle.setVisible(false);
 
-		JLabel lblPostBill = new JLabel("Projected Bill:");
+		lblPostBill = new JLabel("Projected Bill:");
 
 		lblPostBill.setForeground(Color.BLACK);
 
 		lblPostBill.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 12));
 
 		lblPostBill.setBounds(50, 58, 130, 20);
+		
+		lblPostBill.setVisible(false);
 
 		myProjectsPanel.add(lblTitle);
 
 		myProjectsPanel.add(lblPostBill);
 
-		JLabel lblCurrentBill = new JLabel("Current Bill:");
+		lblCurrentBill = new JLabel("Current Bill:");
 
 		lblCurrentBill.setForeground(Color.BLACK);
 
@@ -224,59 +246,70 @@ public class GUI_START {
 		lblCurrentBill.setBackground(Color.LIGHT_GRAY);
 
 		lblCurrentBill.setBounds(50, 96, 171, 20);
+		
+		lblCurrentBill.setVisible(false);
 
 		myProjectsPanel.add(lblCurrentBill);
 
-		//Tasks
-		//Casey
-		JLabel lblProcedure = new JLabel("Tasks:");
+		// Tasks
+		// Casey
+		lblProcedure = new JLabel("Tasks:");
 
 		lblProcedure.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 14));
 
 		lblProcedure.setBackground(Color.BLACK);
 
 		lblProcedure.setBounds(47, 189, 226, 10);
+		
+		lblProcedure.setVisible(false);
 
 		myProjectsPanel.add(lblProcedure);
-		
-		var taskScrollPane = new JScrollPane();
-		
+
+		taskScrollPane = new JScrollPane();
+
 		taskScrollPane.setBounds(50, 200, 189, 123);
-		
-		//taskScrollPane.setForeground(Color.WHITE);
-				
+
+		// taskScrollPane.setForeground(Color.WHITE);
+
 		taskScrollPane.getViewport().setBackground(Color.DARK_GRAY);
 		
-		myProjectsPanel.add(taskScrollPane);
-		//Tasks
+		taskScrollPane.setForeground(Color.WHITE);
 		
-		//Materials
-		//Casey
-		JLabel lblMaterials = new JLabel("Materials:");
+		taskScrollPane.setVisible(false);
+
+		myProjectsPanel.add(taskScrollPane);
+		// Tasks
+
+		// Materials
+		// Casey
+		lblMaterials = new JLabel("Materials:");
 
 		lblMaterials.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 14));
 
 		lblMaterials.setBounds(256, 35, 223, 10);
 		
-		var materialsScrollPane = new JScrollPane();
-		
-		//materialsScrollPane.setForeground(Color.WHITE);
+		lblMaterials.setVisible(false);
+
+		materialsScrollPane = new JScrollPane();
+
+		// materialsScrollPane.setForeground(Color.WHITE);
 
 		materialsScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-
-		materialsScrollPane.setBounds(249, 49, 220, 274);	
 		
+		materialsScrollPane.getViewport().setForeground(Color.WHITE);
+
+		materialsScrollPane.setBounds(249, 49, 220, 274);
+
 		materialsScrollPane.setOpaque(true);
 		
+		materialsScrollPane.setVisible(false);
+
 		myProjectsPanel.add(materialsScrollPane);
-		//Materials
+		// Materials
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
-			dataEntry entry = new dataEntry();
-			entry.initialize();
-			entry.setUser(loadedUser);
-			entry.start();
+			dataEntry entry = new dataEntry(this);
 		});
 
 		newProjectButton.setForeground(Color.WHITE);
@@ -293,15 +326,21 @@ public class GUI_START {
 		projectedBillField = new JTextField();
 		projectedBillField.setColumns(10);
 		projectedBillField.setBackground(Color.DARK_GRAY);
+		projectedBillField.setForeground(Color.WHITE);
 		projectedBillField.setBounds(50, 77, 189, 20);
 		myProjectsPanel.add(projectedBillField);
+		
+		projectedBillField.setVisible(false);
 
 		CurrentBillField = new JTextField();
 		CurrentBillField.setColumns(10);
 		CurrentBillField.setBackground(Color.DARK_GRAY);
+		CurrentBillField.setForeground(Color.WHITE);
 		CurrentBillField.setBounds(50, 116, 189, 20);
 		myProjectsPanel.add(CurrentBillField);
 		btnLoadProject.setForeground(Color.WHITE);
+		
+		CurrentBillField.setVisible(false);
 
 		btnLoadProject.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
 
@@ -311,16 +350,12 @@ public class GUI_START {
 
 		myProjectsPanel.add(btnLoadProject);
 
-		JButton btnEditProject = new JButton("Edit Project");
+		btnEditProject = new JButton("Edit Project");
 
+		// TODO
 		btnEditProject.addActionListener(action -> {
-			dataEntry entry = new dataEntry();
-			entry.initialize();
-			entry.setUser(loadedUser);
-			entry.start();
+			dataEntry entry = new dataEntry(this);
 		});
-
-
 
 		btnEditProject.setForeground(new Color(255, 255, 255));
 
@@ -330,6 +365,7 @@ public class GUI_START {
 
 		btnEditProject.setBounds(304, 0, 175, 23);
 		myProjectsPanel.add(btnEditProject);
+		btnEditProject.setEnabled(false);
 
 		newProjectButton.setBounds(0, 0, 152, 23);
 
@@ -337,7 +373,7 @@ public class GUI_START {
 
 		myProjectsPanel.add(lblMaterials);
 
-		JLabel lblDiff = new JLabel("Difficulty:");
+		lblDiff = new JLabel("Difficulty:");
 
 		lblDiff.setBackground(Color.LIGHT_GRAY);
 
@@ -346,14 +382,27 @@ public class GUI_START {
 		lblDiff.setForeground(Color.BLACK);
 
 		lblDiff.setBounds(50, 137, 171, 20);
+		
+		lblDiff.setVisible(false);
 
-		JSlider diffSlider = new JSlider(1, 3);
+		diffSlider = new JSlider(0, 10);
+		
+		diffSlider.setMajorTickSpacing(1);
+		
+		diffSlider.setSnapToTicks(true);
 
 		diffSlider.setForeground(Color.GREEN);
 
 		diffSlider.setBackground(Color.DARK_GRAY);
 
 		diffSlider.setBounds(50, 158, 189, 20);
+		
+		diffSlider.setMinimum(0);
+		diffSlider.setMaximum(10);
+		diffSlider.setMajorTickSpacing(1);
+		diffSlider.setSnapToTicks(true);
+		
+		diffSlider.setVisible(false);
 
 		myProjectsPanel.add(lblDiff);
 
@@ -408,13 +457,14 @@ public class GUI_START {
 		panel_3.add(lblNewLabel);
 
 	}
-	
+
 	/**
 	 * Updates the task fields.
+	 * 
 	 * @author Casey Hogan
 	 */
 	private void updateTasks(JPanel theProjectsPanel, JScrollPane theScrollPane) {
-		//Casey task pane code.
+		// Casey task pane code.
 		var tasksTextArea = new JTextArea();
 
 		tasksTextArea.setForeground(Color.WHITE);
@@ -422,43 +472,43 @@ public class GUI_START {
 		tasksTextArea.setBackground(Color.DARK_GRAY);
 
 		tasksTextArea.setBounds(50, 200, 189, 123);
-		
 
 		var tasks = loadedProject.getProcedure();
 		var count = 1;
-		for(var t : tasks) {
+		for (var t : tasks) {
 			StringBuilder sb = new StringBuilder(count);
 			sb.append(":  ");
 			sb.append(t);
 			tasksTextArea.append(sb.toString());
 			count++;
 		}
-		
+
 		theScrollPane.add(tasksTextArea);
 
 		theProjectsPanel.repaint();
-		//end of code.
+		// end of code.
 	}
-	
+
 	/**
 	 * Updates the Materials
+	 * 
 	 * @author Casey Hogan
 	 */
 	private void updateMaterials(JPanel theProjectsPanel, JScrollPane theScrollPane) {
-		//Casey task pane code.
+		// Casey task pane code.
 		theScrollPane.removeAll();
-		
+
 		JTextArea materialsTextArea = new JTextArea();
-		
+
 		materialsTextArea.setForeground(Color.WHITE);
 
 		materialsTextArea.setBackground(Color.DARK_GRAY);
 
-		materialsTextArea.setBounds(249, 49, 220, 274);		
-		
+		materialsTextArea.setBounds(249, 49, 220, 274);
+
 		var materials = loadedProject.getMaterials();
-		
-		for(Material mat : materials) {
+
+		for (Material mat : materials) {
 			StringBuilder sb = new StringBuilder("Name: ");
 			sb.append(mat.getName());
 			sb.append(" Costs:");
@@ -466,16 +516,55 @@ public class GUI_START {
 			sb.append("\n");
 			materialsTextArea.append(sb.toString());
 		}
-		
+
 		theScrollPane.add(materialsTextArea);
 
 		theScrollPane.repaint();
 		theProjectsPanel.repaint();
-		//end of code.
+		// end of code.
 	}
+	/**
+	 * @author Gavin Montes
+	 */
+	public void aProjectHasBeenLoaded() {
+		lblTitle.setText(loadedProject.getTitle());
+		lblTitle.setVisible(true);
+		lblPostBill.setVisible(true);
+		lblCurrentBill.setVisible(true);
+		lblProcedure.setVisible(true);
+		taskScrollPane.setVisible(true);
+		lblMaterials.setVisible(true);
+		materialsScrollPane.setVisible(true);
+		
+		projectedBillField.setText(Double.toString(loadedProject.getBill().getProjectedBill()));
+		projectedBillField.setEditable(false);
+		projectedBillField.setVisible(true);
+		
+		CurrentBillField.setText(Double.toString(loadedProject.getBill().getCurrentBill()));
+		CurrentBillField.setEditable(false);
+		CurrentBillField.setVisible(true);
+		
+		btnEditProject.setEnabled(true);
+		
+		lblDiff.setVisible(true);
+		diffSlider.setValue(loadedProject.getDiff());
+		diffSlider.setEnabled(false);
+		diffSlider.setVisible(true);
+		
+		this.frame.revalidate();
+		this.frame.repaint();
+	}
+	/**
+	 * @author Gavin Montes
+	 * @return theUser loaded by this GUI.
+	 */
 	public User getUser() {
 		return this.loadedUser;
 	}
+	/**
+	 * @author Gavin Montes
+	 * @param theProject that we are setting as the loaded project for this GUI
+	 */
 	public void setProject(Project theProject) {
 		loadedProject = theProject;
 	}

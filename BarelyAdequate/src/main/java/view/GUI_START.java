@@ -64,6 +64,7 @@ public class GUI_START {
 
 	/**
 	 * Launch the app..
+	 * @author Kyle Bittner
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -80,6 +81,7 @@ public class GUI_START {
 
 	/**
 	 * Initialize...
+	 * @autho Kyle Bittner
 	 */
 	public GUI_START() {
 		setup();
@@ -87,6 +89,7 @@ public class GUI_START {
 
 	/**
 	 * setup gui all one method (because YOLO)
+	 * @author Kyle Bittner
 	 */
 	private void setup() {
 

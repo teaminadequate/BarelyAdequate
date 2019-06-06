@@ -1,3 +1,11 @@
-/model/
+/Library.class
+/LibraryTest.class
 /database/
+/model/
+<<<<<<< Updated upstream
+/database/
+=======
+/resources/
+/tests/
+>>>>>>> Stashed changes
 /view/

@@ -8,6 +8,7 @@ package model;
 
 /**
  * Contains the Material class.
+ * @author Gavin Montes
  */
 public class Material {
 	/** The cost of the material. */
@@ -19,7 +20,7 @@ public class Material {
 	/**
 	 * Constructor to initialize the fields of the Material. Every material has a
 	 * type and cost associated with it.
-	 * 
+	 * @author Gavin Montes
 	 * @param type the kind of material
 	 * @param cost the cost of the material
 	 */
@@ -30,7 +31,7 @@ public class Material {
 
 	/**
 	 * Getter for the material type.
-	 * 
+	 * @author Gavin Montes
 	 * @return myMaterialType the identifier (name) of this material.
 	 */
 	public String getName() {
@@ -39,7 +40,7 @@ public class Material {
 
 	/**
 	 * Getter for the cost.
-	 * 
+	 * @author Gavin Montes
 	 * @return myCost the cost of this material.
 	 */
 	public double getCost() {

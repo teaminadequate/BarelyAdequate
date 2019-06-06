@@ -7,7 +7,7 @@ package model;
 /**
  * This represents the bill and how it will be affected by the project.
  * 
- * @author Gavin
+ *@author Gavin Montes
  *
  */
 public class Bill {
@@ -19,6 +19,7 @@ public class Bill {
 
 	/**
 	 * Constructor for a blank bill.
+	 * @author Gavin Montes
 	 */
 	public Bill() {
 		currentBill = 0.0;
@@ -28,7 +29,7 @@ public class Bill {
 	/**
 	 * Constructor to initialize fields. To change the bills we have to know what the previous bill
 	 * was, and what we want the bill to become.
-	 * 
+	 * @author Gavin Montes
 	 * @param before the previous bill
 	 * @param after the bill after
 	 */
@@ -40,7 +41,7 @@ public class Bill {
 	/**
 	 * Returns a formatted amount of time that the project will take to return on
 	 * investment.
-	 * 
+	 * @author Gavin Montes
 	 * @return returns the projected return on investment.
 	 */
 	public String getROI() {
@@ -51,7 +52,7 @@ public class Bill {
 
 	/**
 	 * Returns the monthly savings effective on project completion.
-	 * 
+	 * @author Gavin Montes
 	 * @return the monthly savings.
 	 */
 	public double getMonthlySavings() {
@@ -60,7 +61,7 @@ public class Bill {
 
 	/**
 	 * Returns the bill before the project is completed.
-	 * 
+	 * @author Gavin Montes
 	 * @return the current bill
 	 */
 	public double getCurrentBill() {
@@ -69,7 +70,7 @@ public class Bill {
 
 	/**
 	 * Returns the projected bill after project completion.
-	 * 
+	 * @author Gavin Montes
 	 * @return the projected bill
 	 */
 	public double getProjectedBill() {
@@ -78,7 +79,7 @@ public class Bill {
 
 	/**
 	 * Calculates the projected bill based off of the current bill.
-	 * 
+	 * @author Gavin Montes
 	 * @param theBill the current bill for the project
 	 */
 	public void setProjectedBill(double theBill) {
@@ -87,7 +88,7 @@ public class Bill {
 
 	/**
 	 * Sets the current bill
-	 * 
+	 * @author Gavin Montes
 	 * @param theBill the previous bill
 	 */
 	public void setCurrentBill(double theBill) {

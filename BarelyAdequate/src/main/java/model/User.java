@@ -25,6 +25,7 @@ public class User {
 	
 	/**
 	 * Constructor to initialize fields.
+	 * @author Gavin Montes
 	 */
 	public User(String theName, String theEmail) throws SQLException, ClassNotFoundException {
 		userName = theName;
@@ -43,6 +44,7 @@ public class User {
 	}
 	/**
 	 * Getter for the username.
+	 * @author Gavin Montes
 	 * @return the user's first name.
 	 */
 	public String getName() {
@@ -50,6 +52,7 @@ public class User {
 	}
 	/**
 	 * Getter for the user's email.
+	 * @author Gavin Montes
 	 * @return the user's email address.
 	 */
 	public String getEmail() {
@@ -58,6 +61,7 @@ public class User {
 	/**
 	 * Adds a new project to the list of this user's projects if there isn't on already,
 	 * otherwise, overwrites a project of the same name
+	 * @author Gavin Montes
 	 * @param theProject
 	 */
 	public void addProject(Project theProject) throws ClassNotFoundException, SQLException {
@@ -79,6 +83,11 @@ public class User {
 			dbm.insertTask(userName, theProject.getTitle(), step);
 		}
 	}
+	/**
+	 * Returns a list of the user's projects as project objects.
+	 * @author Gavin Montes
+	 * @return a list of the user's projects
+	 */
 	public ArrayList<Project> getUserProjects() {
 		return userProjects;
 	}

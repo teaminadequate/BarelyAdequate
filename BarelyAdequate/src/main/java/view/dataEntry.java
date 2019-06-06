@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
+import model.Project;
 import model.User;
 
 import javax.swing.JTextArea;
@@ -37,6 +38,7 @@ public class dataEntry extends JFrame {
 	private JLabel difficultyLbl;
 	private JTextField currentBillField;
 	private User user;
+	private Project project;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -53,6 +55,7 @@ public class dataEntry extends JFrame {
 
 	public dataEntry(User theUser) {
 		user = theUser;
+		project = new Project();
 		initialize(theUser);
 	}
 

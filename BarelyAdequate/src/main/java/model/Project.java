@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Gavin
+ * @author Gavin Montes
  */
 public class Project {
 	/** The title of the project. */
@@ -22,7 +22,10 @@ public class Project {
 	/** A checklist of procedure steps needed to complete this project. */
 	private ArrayList<String> myProcedure;
 	
-	/** Initializes a new blank project. */
+	/** 
+	 * Initializes a new blank project. 
+	 * @author Gavin Montes
+	 */
 	public Project() {
 		myTitle = "";
 		myMaterials = new ArrayList<Material>();
@@ -33,7 +36,7 @@ public class Project {
 
 	/**
 	 * Gets the title of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @return the title of the project
 	 */
 	public String getTitle() {
@@ -41,6 +44,7 @@ public class Project {
 	}
 	/**
 	 * Gets the list of materials.
+	 * @author Gavin Montes
 	 * @return and ArrayList of the materials for this project.
 	 */
 	public ArrayList<Material> getMaterials() {
@@ -48,6 +52,7 @@ public class Project {
 	}
 	/**
 	 * Gets the procedure.
+	 * @author Gavin Montes
 	 * @return and ArrayList of procedure steps(Strings).
 	 */
 	public ArrayList<String> getProcedure() {
@@ -55,7 +60,7 @@ public class Project {
 	}
 	/**
 	 * Gets the difficulty of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @return returns the difficulty of the project (Scale of 1 to 10).
 	 */
 	public int getDiff() {
@@ -63,16 +68,15 @@ public class Project {
 	}
 	/**
 	 * Sets the title of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @param theTitle the title you want the project to be set to
 	 */
 	public void setTitle(String theTitle) {
 		myTitle = theTitle;
-		
 	}
 	/**
 	 * Adds a material to the list of materials, as well as to the database.
-	 * 
+	 * @author Gavin Montes
 	 * @param theMaterial the material to be added to the list
 	 */
 	public void addMaterial(Material theMaterial) {
@@ -80,7 +84,7 @@ public class Project {
 	}
 	/**
 	 * Removes a material from the list of materials.
-	 * 
+	 * @author Gavin Montes
 	 * @param theMaterialName the name of the material that you want to be removed
 	 */
 	public void removeMaterial(String theMaterialName) {
@@ -92,7 +96,7 @@ public class Project {
 	}
 	/**
 	 * The current bill of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @return the current bill of the project
 	 */
 	public Bill getBill() {
@@ -101,7 +105,7 @@ public class Project {
 	}
 	/**
 	 * Sets the current bill for the project.
-	 * 
+	 * @author Gavin Montes
 	 * @param theBill the bill you want
 	 */
 	public void setCurrentBill(double theBill) {
@@ -110,7 +114,7 @@ public class Project {
 	}
 	/**
 	 * Sets the projected bill of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @param theBill the projected bill you want
 	 */
 	public void setProjectedBill(double theBill) {
@@ -118,7 +122,7 @@ public class Project {
 	}
 	/**
 	 * Sets the difficulty of the project.
-	 * 
+	 * @author Gavin Montes
 	 * @param theDiff the new difficulty of the project
 	 */
 	public void setDiff(int theDiff) {
@@ -132,7 +136,7 @@ public class Project {
 	}
 	/**
 	 * Gets the total cost of the materials.
-	 * 
+	 * @author Gavin Montes
 	 * @return the total cost of the materials
 	 */
 	public double getTotal() {
@@ -144,7 +148,7 @@ public class Project {
 	}
 	/**
 	 * Adds a step to the procedures list.
-	 * 
+	 * @author Gavin Montes
 	 * @param theStep the step to be added to the procedure list
 	 */
 	public void addStep(String theStep) {
@@ -152,7 +156,7 @@ public class Project {
 	}
 	/**
 	 * Adds a step to a specific part of the list.
-	 * 
+	 * @author Gavin Montes
 	 * @param theIndex the index where you want the list to be
 	 * @param theStep the step to be added to the procedure list
 	 */
@@ -161,7 +165,7 @@ public class Project {
 	}
 	/**
 	 * Removes a step.
-	 * 
+	 * @author Gavin Montes
 	 * @param theIndex the index of the step to be removed
 	 */
 	public void removeStep(String theStepName) {
@@ -171,13 +175,20 @@ public class Project {
 			}
 		}
 	}
+	/**
+	 * Sets the materials list to the given list.
+	 * @author Gavin Montes
+	 * @param theMaterials the new updated list of materials
+	 */
 	public void setMaterials(ArrayList<Material> theMaterials) {
 		myMaterials = theMaterials;
 	}
+	/**
+	 * Sets the procedure to the given list.
+	 * @author Gavin Montes
+	 * @param theProcedure the new updated list steps
+	 */
 	public void setProcedure(ArrayList<String> theProcedure) {
 		myProcedure = theProcedure;
-	}
-	public String toString() {
-		return myTitle + getTotal();
 	}
 }

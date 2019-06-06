@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
+import model.Material;
 import model.Project;
 import model.User;
 
@@ -15,17 +16,20 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 
 public class dataEntry extends JFrame {
-
+        
 	private JFrame dataEntryFrame;
 	private JLabel lblProjectTitle;
 	private JLabel lblMaterialName;
 	private JLabel lblCost;
 	private JButton btnAdd;
-	private JButton btnRemove;
+	private JButton materialRemoveButton;
 	private JTextField projectNameField;
 	private JTextField materialNameField;
 	private JTextField costField;
@@ -39,46 +43,41 @@ public class dataEntry extends JFrame {
 	private JTextField currentBillField;
 	private User user;
 	private Project project;
-	private GUI_START mainGUI;
+	
+	private ArrayList<Material> materials = new ArrayList<Material>();
 
-	public static void main(String[] args) {
+
+//	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					dataEntry window = new dataEntry(new User("nicole67","nguob@uw.edu"));
+//					dataEntry window = new dataEntry();
 //					window.dataEntryFrame.setVisible(true);
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
 //			}
 //		});
+//	}
+
+	public dataEntry() {		
 	}
 
-	public dataEntry(GUI_START theGUI) {
-		mainGUI = theGUI;
-		user = mainGUI.getUser();
+	public void initialize() {
 		project = new Project();
-		initialize(user);
-	}
-
-	private void initialize(User theUser) {
+		
 		dataEntryFrame = new JFrame();
 		dataEntryFrame.setTitle("Please enter project data:");
 		dataEntryFrame.setBounds(100, 100, 432, 282);
 		dataEntryFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		dataEntryFrame.getContentPane().setLayout(null);
 		
-		addTaskBtn = new JButton("Add\r\n");
-		addTaskBtn.setForeground(Color.WHITE);
-		addTaskBtn.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
-		addTaskBtn.setBackground(Color.DARK_GRAY);
-		addTaskBtn.setBounds(262, 109, 60, 20);
-		dataEntryFrame.getContentPane().add(addTaskBtn);
+		
 		
 		lblTask = new JLabel("Task:");
 		lblTask.setForeground(Color.BLACK);
 		lblTask.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
-		lblTask.setBounds(47, 130, 130, 20);
+		lblTask.setBounds(47, 95, 130, 20);
 		dataEntryFrame.getContentPane().add(lblTask);
 		
 		difficultyLbl = new JLabel("Project Difficulty:");
@@ -93,43 +92,38 @@ public class dataEntry extends JFrame {
 		difficultySlider.setBounds(47, 206, 146, 18);
 		dataEntryFrame.getContentPane().add(difficultySlider);
 		
-		removeTaskBtn = new JButton("Remove");
-		removeTaskBtn.setForeground(Color.WHITE);
-		removeTaskBtn.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
-		removeTaskBtn.setBackground(Color.DARK_GRAY);
-		removeTaskBtn.setBounds(319, 109, 80, 20);
-		dataEntryFrame.getContentPane().add(removeTaskBtn);
-		
-		lblTaskName = new JLabel("Task Name:");
-		lblTaskName.setForeground(Color.BLACK);
-		lblTaskName.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
-		lblTaskName.setBounds(47, 89, 130, 20);
-		dataEntryFrame.getContentPane().add(lblTaskName);
 		
 		JLabel lblCurrentBill = new JLabel("Current Bill:");
 		lblCurrentBill.setForeground(Color.BLACK);
 		lblCurrentBill.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
-		lblCurrentBill.setBounds(197, 183, 130, 20);
+		lblCurrentBill.setBounds(47, 145, 130, 20);
 		dataEntryFrame.getContentPane().add(lblCurrentBill);
 		
 		currentBillField = new JTextField("$");
 		currentBillField.setForeground(Color.WHITE);
 		currentBillField.setColumns(10);
 		currentBillField.setBackground(Color.DARK_GRAY);
-		currentBillField.setBounds(197, 205, 202, 20);
+		currentBillField.setBounds(47, 163, 150, 20);
 		dataEntryFrame.getContentPane().add(currentBillField);
 		
-		taskNameField = new JTextField();
-		taskNameField.setForeground(Color.WHITE);
-		taskNameField.setColumns(10);
-		taskNameField.setBackground(Color.DARK_GRAY);
-		taskNameField.setBounds(47, 109, 211, 20);
-		dataEntryFrame.getContentPane().add(taskNameField);
+		JLabel projectedNewBillLabel = new JLabel("Projected New Bill:");
+		projectedNewBillLabel.setForeground(Color.BLACK);
+		projectedNewBillLabel.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 12));
+		projectedNewBillLabel.setBounds(200, 145, 130, 20);
+		dataEntryFrame.getContentPane().add(projectedNewBillLabel);
+		
+		JTextField projectedNewBillField = new JTextField("$");
+		projectedNewBillField.setForeground(Color.WHITE);
+		projectedNewBillField.setColumns(10);
+		projectedNewBillField.setBackground(Color.DARK_GRAY);
+		projectedNewBillField.setBounds(200, 163, 200, 20);
+		dataEntryFrame.getContentPane().add(projectedNewBillField);
+		
 		
 		taskDescriptionTextArea = new JTextArea();
 		taskDescriptionTextArea.setForeground(Color.WHITE);
 		taskDescriptionTextArea.setBackground(Color.DARK_GRAY);
-		taskDescriptionTextArea.setBounds(47, 150, 352, 33);
+		taskDescriptionTextArea.setBounds(47, 115, 352, 33);
 		dataEntryFrame.getContentPane().add(taskDescriptionTextArea);
 		
 		costField = new JTextField("$");
@@ -153,16 +147,25 @@ public class dataEntry extends JFrame {
 		dataEntryFrame.getContentPane().add(projectNameField);
 		projectNameField.setColumns(10);
 		
-		btnRemove = new JButton("Remove");
-		btnRemove.setForeground(Color.WHITE);
-		btnRemove.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
-		btnRemove.setBackground(Color.DARK_GRAY);
-		btnRemove.setBounds(319, 70, 80, 20);
-		dataEntryFrame.getContentPane().add(btnRemove);
+		materialRemoveButton = new JButton("Remove");
+		materialRemoveButton.setForeground(Color.WHITE);
+		materialRemoveButton.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
+		materialRemoveButton.setBackground(Color.DARK_GRAY);
+		materialRemoveButton.setBounds(319, 70, 80, 20);
+		dataEntryFrame.getContentPane().add(materialRemoveButton);
+		
+		
+		materialRemoveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				project.removeMaterial(materialNameField.getText());
+			}			
+		});
 		
 		btnAdd = new JButton("Add\r\n");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				project.addMaterial(new Material(materialNameField.getText(),
+						Double.parseDouble(costField.getText().replace("$", ""))));				
 			}
 		});
 		btnAdd.setForeground(Color.WHITE);
@@ -193,11 +196,41 @@ public class dataEntry extends JFrame {
 		lblNewLabel.setIcon(new ImageIcon(dataEntry.class.getResource("/resources/background.png")));
 		lblNewLabel.setBounds(0, -1, 459, 284);
 		dataEntryFrame.getContentPane().add(lblNewLabel);
-		dataEntryFrame.setVisible(true);
+		
+		
+		
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				var _tasks = Arrays.asList(taskDescriptionTextArea.getText().split("\n"));
+				var tasks = new ArrayList<String>();
+				for(var task : _tasks){
+					tasks.add(task);
+				}
+				project.setMaterials(materials);
+				project.setProcedure(tasks);
+				project.setCurrentBill(Double.parseDouble(currentBillField.getText().replace("$", "")));
+				project.setTitle(projectNameField.getText());
+				try {
+					user.addProject(project);
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		saveButton.setBounds(225, 195, 140, 35);
+		saveButton.setBackground(Color.DARK_GRAY);
+		saveButton.setForeground(Color.WHITE);
+		dataEntryFrame.getContentPane().add(saveButton);
 	}
-	private void save() {
-		//project.setTitle(theTitle);
-		//blah blah blah
-		mainGUI.setProject(project);
+	
+	public void start() {
+		this.dataEntryFrame.setVisible(true);
+	}
+	
+	public void setUser(User theUser) {
+		user = theUser;
 	}
 }

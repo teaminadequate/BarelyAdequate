@@ -439,7 +439,7 @@ class DatabaseTester {
 	@Test
 	void testDeleteProject() throws ClassNotFoundException, SQLException {
 		
-		dbm.deleteProject("projectName");
+		dbm.deleteProject("name", "projectName");
 		
 	}
 	

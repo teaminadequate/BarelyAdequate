@@ -273,7 +273,7 @@ public class GUI_START {
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
-			dataEntry entry = new dataEntry(loadedUser);
+			dataEntry entry = new dataEntry(this);
 		});
 
 		newProjectButton.setForeground(Color.WHITE);
@@ -284,7 +284,7 @@ public class GUI_START {
 
 		JButton btnLoadProject = new JButton("Load Project");
 		btnLoadProject.addActionListener(action -> {
-			loadEntry entry = new loadEntry(loadedUser);
+			loadEntry entry = new loadEntry(this);
 		});
 
 		projectedBillField = new JTextField();
@@ -311,7 +311,7 @@ public class GUI_START {
 		JButton btnEditProject = new JButton("Edit Project");
 
 		btnEditProject.addActionListener(action -> {
-			dataEntry entry = new dataEntry(loadedUser);
+			dataEntry entry = new dataEntry(this);
 		});
 
 
@@ -466,5 +466,11 @@ public class GUI_START {
 		theScrollPane.repaint();
 		theProjectsPanel.repaint();
 		//end of code.
+	}
+	public User getUser() {
+		return this.loadedUser;
+	}
+	public void setProject(Project theProject) {
+		loadedProject = theProject;
 	}
 }

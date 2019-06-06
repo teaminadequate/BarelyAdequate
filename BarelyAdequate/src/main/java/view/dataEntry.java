@@ -39,24 +39,26 @@ public class dataEntry extends JFrame {
 	private JTextField currentBillField;
 	private User user;
 	private Project project;
+	private GUI_START mainGUI;
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					dataEntry window = new dataEntry(new User("nicole67","nguob@uw.edu"));
-					window.dataEntryFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					dataEntry window = new dataEntry(new User("nicole67","nguob@uw.edu"));
+//					window.dataEntryFrame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
-	public dataEntry(User theUser) {
-		user = theUser;
+	public dataEntry(GUI_START theGUI) {
+		mainGUI = theGUI;
+		user = mainGUI.getUser();
 		project = new Project();
-		initialize(theUser);
+		initialize(user);
 	}
 
 	private void initialize(User theUser) {
@@ -192,5 +194,10 @@ public class dataEntry extends JFrame {
 		lblNewLabel.setBounds(0, -1, 459, 284);
 		dataEntryFrame.getContentPane().add(lblNewLabel);
 		dataEntryFrame.setVisible(true);
+	}
+	private void save() {
+		//project.setTitle(theTitle);
+		//blah blah blah
+		mainGUI.setProject(project);
 	}
 }

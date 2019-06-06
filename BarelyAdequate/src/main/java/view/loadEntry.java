@@ -36,21 +36,25 @@ public class loadEntry {
 
 	private JFrame frame;
 	private JComboBox comboBox;
+	private Project project;
+	private User user;
+	private GUI_START mainGUI;
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					loadEntry window = new loadEntry(new User("nicole", "email67"));
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					this.initialize"nguo();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
-	public loadEntry(User user) {
+	public loadEntry(GUI_START theGUI) {
+		mainGUI = theGUI;
+		user = mainGUI.getUser();
 		initialize(user);
 	}
 
@@ -83,9 +87,7 @@ public class loadEntry {
 				for (int i = 0; i < projects.length; i++) {
 					Project currentProject = userProjects.get(i);
 					if (currentProject.getTitle().equals(selectedProjectName)) {
-						List<Material> materials = currentProject.getMaterials();
-						List<String> procedures = currentProject.getProcedure();
-						
+						project = currentProject;
 					}
 					
 				}
@@ -104,7 +106,7 @@ public class loadEntry {
 		lblNewLabel.setBounds(0, 0, 434, 261);
 		lblNewLabel.setIcon(new ImageIcon(loadEntry.class.getResource("/resources/background.png")));
 		frame.getContentPane().add(lblNewLabel);
-
+		frame.setVisible(true);
 	}
 
 	public void addScroller(JComboBox<?> comboBox) {
@@ -126,5 +128,9 @@ public class loadEntry {
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
+	}
+	
+	private void load() {
+		mainGUI.setProject(project);
 	}
 }

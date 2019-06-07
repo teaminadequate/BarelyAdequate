@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
 import database.databaseManager;
@@ -13,8 +14,11 @@ import model.Project;
 import model.User;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -22,6 +26,7 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.JSlider;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import java.awt.Color;
@@ -67,8 +72,8 @@ public class GUI_START {
 	private JLabel lblPostBill;
 	private JLabel lblCurrentBill;
 	private JLabel lblProcedure;
-	private JScrollPane taskScrollPane;
-	private JScrollPane materialsScrollPane;
+
+
 	private JButton btnEditProject;
 	private JLabel lblDiff;
 	private JSlider diffSlider;
@@ -284,20 +289,11 @@ public class GUI_START {
 
 		tasksTextArea.setBounds(50, 200, 189, 123);
 		
-		taskScrollPane = new JScrollPane();
-
-		taskScrollPane.setBounds(50, 200, 189, 123);
-
-		taskScrollPane.getViewport().setBackground(Color.DARK_GRAY);
+		tasksTextArea.setVisible(false);
 		
-		taskScrollPane.setForeground(Color.WHITE);
+		myProjectsPanel.add(tasksTextArea);
 		
-		taskScrollPane.setOpaque(false);
 		
-		taskScrollPane.setVisible(false);
-
-		myProjectsPanel.add(taskScrollPane);
-		// Tasks
 
 		// Materials
 		// Casey
@@ -316,21 +312,11 @@ public class GUI_START {
 		materialsTextArea.setBackground(Color.DARK_GRAY);
 
 		materialsTextArea.setBounds(249, 49, 220, 274);
+		materialsTextArea.setVisible(false);
+	    myProjectsPanel.add(materialsTextArea);
+	   
 		
-		materialsScrollPane = new JScrollPane();
-
-		materialsScrollPane.setForeground(Color.WHITE);
-
-		materialsScrollPane.getViewport().setBackground(Color.DARK_GRAY);
-
-		materialsScrollPane.setBounds(249, 49, 220, 274);
-
-		materialsScrollPane.setOpaque(true);
 		
-		materialsScrollPane.setVisible(false);
-
-		myProjectsPanel.add(materialsScrollPane);
-		// Materials
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
@@ -499,7 +485,7 @@ public class GUI_START {
 		}
 
 		theScrollPane.add(tasksTextArea);
-
+		tasksTextArea.repaint();
 		myProjectsPanel.repaint();
 		// end of code.
 	}
@@ -509,22 +495,23 @@ public class GUI_START {
 	 * 
 	 * @author Casey Hogan
 	 */
-	private void updateMaterials(JScrollPane theScrollPane) {
-		//// Casey task pane code.
-		theScrollPane.removeAll();
-		
-		String materials = "";
-		for(Material m : loadedProject.getMaterials()) {
-			materials = m.toString() + "\n";
+	private void addMaterials() {
+		materialsTextArea.removeAll();
+		List<?> list = loadedProject.getMaterials();
+		for(Object item : list) {
+			materialsTextArea.append(item.toString());
+			materialsTextArea.append("\n");
+			
 		}
-		materials += "TOTAL: " + Double.toString(loadedProject.getTotal());
-		materialsTextArea.setText(materials);
-		
-		theScrollPane.add(materialsTextArea);
-
-		//theScrollPane.repaint();
-		//myProjectsPanel.repaint();
-		// end of code.
+	}
+	
+	private void addTasks() {
+		materialsTextArea.removeAll();
+		List<?> list = loadedProject.getProcedure();
+		for(Object item: list) {
+			tasksTextArea.append(item.toString());
+			tasksTextArea.append("\n");
+		}
 	}
 	/**
 	 * @author Gavin Montes
@@ -535,16 +522,14 @@ public class GUI_START {
 		lblPostBill.setVisible(true);
 		lblCurrentBill.setVisible(true);
 		lblProcedure.setVisible(true);
-		updateTasks(taskScrollPane);
-		taskScrollPane.setVisible(true);
 		lblMaterials.setVisible(true);
-		updateMaterials(materialsScrollPane);
-		materialsScrollPane.setVisible(true);
-		
+		materialsTextArea.setVisible(true);
+		addMaterials();
 		projectedBillField.setText(Double.toString(loadedProject.getBill().getProjectedBill()));
 		projectedBillField.setEditable(false);
 		projectedBillField.setVisible(true);
-		
+		tasksTextArea.setVisible(true);
+		addTasks();
 		CurrentBillField.setText(Double.toString(loadedProject.getBill().getCurrentBill()));
 		CurrentBillField.setEditable(false);
 		CurrentBillField.setVisible(true);
@@ -572,5 +557,18 @@ public class GUI_START {
 	 */
 	public void setProject(Project theProject) {
 		loadedProject = theProject;
+	}
+	
+	public void addScroller(JTextArea textArea) {
+		JTextArea text = textArea;
+		
+	
+	
+
+		JScrollPane scrollPane = (JScrollPane) text.getComponent(0);
+
+		scrollPane.setVerticalScrollBar(new JScrollBar(JScrollBar.VERTICAL));
+
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	}
 }

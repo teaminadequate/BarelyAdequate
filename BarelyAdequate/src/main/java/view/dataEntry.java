@@ -47,8 +47,6 @@ public class dataEntry extends JFrame {
 	private Project project;
 	private GUI_START mainGUI;
 	
-	private ArrayList<Material> materials = new ArrayList<Material>();
-
 
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
@@ -224,7 +222,6 @@ public class dataEntry extends JFrame {
 				for(var task : _tasks){
 					tasks.add(task);
 				}
-				project.setMaterials(materials);
 				project.setProcedure(tasks);
 				project.setCurrentBill(Double.parseDouble(currentBillField.getText().replace("$", "")));
 				project.setProjectedBill(Double.parseDouble(projectedNewBillField.getText().replace("$", "")));

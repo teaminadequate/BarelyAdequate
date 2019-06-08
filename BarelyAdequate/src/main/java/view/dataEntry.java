@@ -226,6 +226,7 @@ public class dataEntry extends JFrame {
 				project.setCurrentBill(Double.parseDouble(currentBillField.getText().replace("$", "")));
 				project.setProjectedBill(Double.parseDouble(projectedNewBillField.getText().replace("$", "")));
 				project.setTitle(projectNameField.getText());
+				project.setDiff(difficultySlider.getValue());
 				try {
 					user.addProject(project);
 				} catch (ClassNotFoundException | SQLException e) {

@@ -17,10 +17,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import java.awt.Font;
@@ -81,6 +84,7 @@ public class GUI_START {
 	private JPanel myProjectsPanel;
 	private JTextArea materialsTextArea;
 	private JTextArea tasksTextArea;
+	private JLabel lblROI;
 	
 	/**
 	 * Launch the app..
@@ -102,10 +106,11 @@ public class GUI_START {
 
 	/**
 	 * Initialize...
+	 * @throws FileNotFoundException 
 	 * 
 	 * @autho Kyle Bittner
 	 */
-	public GUI_START() {
+	public GUI_START() throws FileNotFoundException {
 		setup();
 	}
 
@@ -113,8 +118,9 @@ public class GUI_START {
 	 * setup gui all one method (because YOLO)
 	 * 
 	 * @author Kyle Bittner
+	 * @throws FileNotFoundException 
 	 */
-	private void setup() {
+	private void setup() throws FileNotFoundException {
 
 		dbm = new databaseManager();
 		// Setup Frame
@@ -229,7 +235,7 @@ public class GUI_START {
 
 		lblTitle = new JLabel("Title would go here");
 
-		lblTitle.setForeground(Color.DARK_GRAY);
+		lblTitle.setForeground(Color.BLACK);
 
 		lblTitle.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 15));
 
@@ -239,33 +245,33 @@ public class GUI_START {
 		
 		lblTitle.setVisible(false);
 
-		lblPostBill = new JLabel("Projected Bill:");
-
-		lblPostBill.setForeground(Color.BLACK);
-
-		lblPostBill.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 12));
-
-		lblPostBill.setBounds(50, 58, 130, 20);
-		
-		lblPostBill.setVisible(false);
-
-		myProjectsPanel.add(lblTitle);
-
-		myProjectsPanel.add(lblPostBill);
-
 		lblCurrentBill = new JLabel("Current Bill:");
 
 		lblCurrentBill.setForeground(Color.BLACK);
 
 		lblCurrentBill.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 12));
 
-		lblCurrentBill.setBackground(Color.LIGHT_GRAY);
-
-		lblCurrentBill.setBounds(50, 96, 171, 20);
+		lblCurrentBill.setBounds(50, 58, 130, 20);
 		
 		lblCurrentBill.setVisible(false);
 
+		myProjectsPanel.add(lblTitle);
+
 		myProjectsPanel.add(lblCurrentBill);
+
+		lblPostBill = new JLabel("Projected Bill:");
+
+		lblPostBill.setForeground(Color.BLACK);
+
+		lblPostBill.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 12));
+
+		lblPostBill.setBackground(Color.LIGHT_GRAY);
+
+		lblPostBill.setBounds(50, 96, 171, 20);
+		
+		lblPostBill.setVisible(false);
+
+		myProjectsPanel.add(lblPostBill);
 
 		// Tasks
 		// Casey
@@ -275,7 +281,7 @@ public class GUI_START {
 
 		lblProcedure.setBackground(Color.BLACK);
 
-		lblProcedure.setBounds(47, 189, 226, 10);
+		lblProcedure.setBounds(256, 187, 226, 10);
 		
 		lblProcedure.setVisible(false);
 
@@ -287,13 +293,11 @@ public class GUI_START {
 
 		tasksTextArea.setBackground(Color.DARK_GRAY);
 
-		tasksTextArea.setBounds(50, 200, 189, 123);
+		tasksTextArea.setBounds(249, 200, 220, 123);
 		
 		tasksTextArea.setVisible(false);
 		
 		myProjectsPanel.add(tasksTextArea);
-		
-		
 
 		// Materials
 		// Casey
@@ -311,12 +315,11 @@ public class GUI_START {
 
 		materialsTextArea.setBackground(Color.DARK_GRAY);
 
-		materialsTextArea.setBounds(249, 49, 220, 274);
+		materialsTextArea.setBounds(249, 49, 220, 129);
+		
 		materialsTextArea.setVisible(false);
+		
 	    myProjectsPanel.add(materialsTextArea);
-	   
-		
-		
 
 		JButton newProjectButton = new JButton("New Project");
 		newProjectButton.addActionListener(action -> {
@@ -329,24 +332,24 @@ public class GUI_START {
 
 		newProjectButton.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
 
-		projectedBillField = new JTextField();
-		projectedBillField.setColumns(10);
-		projectedBillField.setBackground(Color.DARK_GRAY);
-		projectedBillField.setForeground(Color.WHITE);
-		projectedBillField.setBounds(50, 77, 189, 20);
-		myProjectsPanel.add(projectedBillField);
-		
-		projectedBillField.setVisible(false);
-
 		CurrentBillField = new JTextField();
 		CurrentBillField.setColumns(10);
 		CurrentBillField.setBackground(Color.DARK_GRAY);
 		CurrentBillField.setForeground(Color.WHITE);
-		CurrentBillField.setBounds(50, 116, 189, 20);
+		CurrentBillField.setBounds(50, 77, 189, 20);
 		myProjectsPanel.add(CurrentBillField);
-		btnLoadProject.setForeground(Color.WHITE);
 		
 		CurrentBillField.setVisible(false);
+
+		projectedBillField = new JTextField();
+		projectedBillField.setColumns(10);
+		projectedBillField.setBackground(Color.DARK_GRAY);
+		projectedBillField.setForeground(Color.WHITE);
+		projectedBillField.setBounds(50, 116, 189, 20);
+		myProjectsPanel.add(projectedBillField);
+		btnLoadProject.setForeground(Color.WHITE);
+		
+		projectedBillField.setVisible(false);
 
 		btnLoadProject.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
 
@@ -413,9 +416,15 @@ public class GUI_START {
 		myProjectsPanel.add(lblDiff);
 
 		myProjectsPanel.add(diffSlider);
+		
+		lblROI = new JLabel("");
+		lblROI.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 12));
+		lblROI.setBounds(50, 200, 170, 100);
+		lblROI.setForeground(Color.BLACK);
+		lblROI.setVisible(false);
+		myProjectsPanel.add(lblROI);
 
 		JLabel lblNewLabel_3 = new JLabel("");
-
 		lblNewLabel_3.setIcon(new ImageIcon(GUI_START.class.getResource("/resources/background.png")));
 		lblNewLabel_3.setBounds(0, 0, 490, 334);
 		myProjectsPanel.add(lblNewLabel_3);
@@ -427,32 +436,46 @@ public class GUI_START {
 
 		tabbedPanel.addTab("About", null, panel_3, null);
 		panel_3.setLayout(null);
+		String dir = System.getProperty("user.dir");
+		Scanner scanner= new Scanner(new File(dir + "/BarelyAdequate/src/main/java/resources/about.txt"));
 
-		JLabel lblNewLabel_4 = new JLabel("Kyle Bittner");
-		lblNewLabel_4.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
-		lblNewLabel_4.setForeground(new Color(0, 0, 0));
-		lblNewLabel_4.setBounds(191, 171, 274, 33);
-		panel_3.add(lblNewLabel_4);
+		JLabel lbl1 = new JLabel("");
+		lbl1.setText(scanner.nextLine());
+		lbl1.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
+		lbl1.setForeground(new Color(0, 0, 0));
+		lbl1.setBounds(120, 171, 274, 33);
+		panel_3.add(lbl1);
 
-		JLabel lblCaseyHogan = new JLabel("Casey Hogan");
-		lblCaseyHogan.setForeground(new Color(0, 0, 0));
-		lblCaseyHogan.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
-		lblCaseyHogan.setBounds(191, 125, 274, 33);
-		panel_3.add(lblCaseyHogan);
+		JLabel lbl2 = new JLabel("");
+		lbl2.setText(scanner.nextLine());
+		lbl2.setForeground(new Color(0, 0, 0));
+		lbl2.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
+		lbl2.setBounds(136, 125, 274, 33);
+		panel_3.add(lbl2);
 
-		JLabel lblGavinMontes = new JLabel("Gavin Montes");
-		lblGavinMontes.setForeground(new Color(0, 0, 0));
-		lblGavinMontes.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
-		lblGavinMontes.setBounds(181, 215, 274, 33);
-		panel_3.add(lblGavinMontes);
+		JLabel lbl3 = new JLabel("");
+		lbl3.setText(scanner.nextLine());
+		lbl3.setForeground(new Color(0, 0, 0));
+		lbl3.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
+		lbl3.setBounds(133, 215, 274, 33);
+		panel_3.add(lbl3);
 
-		JLabel lblNicoleGuobadia = new JLabel("Nicole Guobadia");
-		lblNicoleGuobadia.setForeground(new Color(0, 0, 0));
-		lblNicoleGuobadia.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
-		lblNicoleGuobadia.setBounds(170, 259, 274, 33);
-		panel_3.add(lblNicoleGuobadia);
+		JLabel lbl4 = new JLabel("");
+		lbl4.setText(scanner.nextLine());
+		lbl4.setForeground(new Color(0, 0, 0));
+		lbl4.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 18));
+		lbl4.setBounds(140, 259, 274, 33);
+		panel_3.add(lbl4);
 
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		JLabel lblVersion = new JLabel("");
+		lblVersion.setText(scanner.nextLine());
+		lblVersion.setForeground(new Color(0, 0, 0));
+		lblVersion.setBounds(169, 300, 274, 33);
+		panel_3.add(lblVersion);
+		
+		scanner.close();
+		
+		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(GUI_START.class.getResource("/resources/title2.png")));
 		lblNewLabel_1.setBounds(0, 0, 479, 90);
 		panel_3.add(lblNewLabel_1);
@@ -461,57 +484,32 @@ public class GUI_START {
 		lblNewLabel.setBackground(new Color(0, 0, 51));
 		lblNewLabel.setBounds(0, 89, 479, 245);
 		panel_3.add(lblNewLabel);
-
-	}
-
-	/**
-	 * Updates the task fields.
-	 * 
-	 * @author Casey Hogan
-	 */
-	private void updateTasks(JScrollPane theScrollPane) {
-		// Casey task pane code.
-		
-
-		var tasks = loadedProject.getProcedure();
-		var count = 1;
-		for (var t : tasks) {
-			StringBuilder sb = new StringBuilder(count);
-			sb.append(":  ");
-			sb.append(t);
-			sb.append("\n");
-			tasksTextArea.append(sb.toString());
-			count++;
-		}
-
-		theScrollPane.add(tasksTextArea);
-		tasksTextArea.repaint();
-		myProjectsPanel.repaint();
-		// end of code.
 	}
 
 	/**
 	 * Updates the Materials
 	 * 
-	 * @author Casey Hogan
+	 * @author Casey Hogan, Gavin Montes, Kyle Bittner
 	 */
 	private void addMaterials() {
-		materialsTextArea.removeAll();
-		List<?> list = loadedProject.getMaterials();
-		for(Object item : list) {
-			materialsTextArea.append(item.toString());
-			materialsTextArea.append("\n");
-			
+		List<Material> list = loadedProject.getMaterials();
+		String s = "";
+		for(Material m : list) {
+			s = s + m.toString() + "\n";
 		}
+		materialsTextArea.setText(s);
+		materialsTextArea.append("\nTOTAL: " + Double.toString(loadedProject.getTotal()));
 	}
-	
+	/**
+	 * @author Gavin Montes, Kyle Bittner Casey Hogan
+	 */
 	private void addTasks() {
-		materialsTextArea.removeAll();
-		List<?> list = loadedProject.getProcedure();
-		for(Object item: list) {
-			tasksTextArea.append(item.toString());
-			tasksTextArea.append("\n");
+		String s = "";
+		List<String> list = loadedProject.getProcedure();
+		for(String task: list) {
+			s = s + task + "\n";
 		}
+		tasksTextArea.setText(s);
 	}
 	/**
 	 * @author Gavin Montes
@@ -525,11 +523,13 @@ public class GUI_START {
 		lblMaterials.setVisible(true);
 		materialsTextArea.setVisible(true);
 		addMaterials();
+		//addScroller(materialsTextArea);
 		projectedBillField.setText(Double.toString(loadedProject.getBill().getProjectedBill()));
 		projectedBillField.setEditable(false);
 		projectedBillField.setVisible(true);
 		tasksTextArea.setVisible(true);
 		addTasks();
+		//addScroller(tasksTextArea);
 		CurrentBillField.setText(Double.toString(loadedProject.getBill().getCurrentBill()));
 		CurrentBillField.setEditable(false);
 		CurrentBillField.setVisible(true);
@@ -540,6 +540,9 @@ public class GUI_START {
 		diffSlider.setValue(loadedProject.getDiff());
 		diffSlider.setEnabled(false);
 		diffSlider.setVisible(true);
+		
+		lblROI.setText("<html>Project will pay for itself in:<br/>" + loadedProject.getROI() + "<br/>after project completion</html>");
+		lblROI.setVisible(true);
 		
 		this.frame.revalidate();
 		this.frame.repaint();
@@ -560,12 +563,7 @@ public class GUI_START {
 	}
 	
 	public void addScroller(JTextArea textArea) {
-		JTextArea text = textArea;
-		
-	
-	
-
-		JScrollPane scrollPane = (JScrollPane) text.getComponent(0);
+		JScrollPane scrollPane = new JScrollPane(textArea);
 
 		scrollPane.setVerticalScrollBar(new JScrollBar(JScrollBar.VERTICAL));
 

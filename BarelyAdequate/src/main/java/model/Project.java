@@ -128,8 +128,8 @@ public class Project {
 	public void setDiff(int theDiff) {
 		if (theDiff > 10) {
 			myDiff = 10;
-		} else if (theDiff < 1) {
-			myDiff = 1;
+		} else if (theDiff < 0) {
+			myDiff = 0;
 		} else {
 			myDiff = theDiff;
 		}

@@ -1,11 +1,8 @@
 /**
- * This is the class that tests the database. 
- * 
  * @author Nicole
  */
 package tests;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,6 +14,11 @@ import database.databaseManager;
 import model.Material;
 import model.Project;
 
+/**
+ * This is the class that tests the database. 
+ * 
+ * @author Nicole
+ */
 class DatabaseTester {
 	/** The instance of the database to be tested. */
 	private databaseManager dbm = new databaseManager();

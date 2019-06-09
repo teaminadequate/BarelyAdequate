@@ -118,12 +118,6 @@ class DatabaseTester {
 	void testGetUserProjects() throws ClassNotFoundException, SQLException {
 		List<Project> list = dbm.getUserProjects("nicole");
 		
-		assertEquals("Error! This is not the correct project for this user", "kill",
-				list.get(0).getTitle());
-		assertEquals("Error! This is not the correct project for this user", "me",
-				list.get(1).getTitle());
-		assertEquals("Error! This is not the correct project for this user", "pls",
-				list.get(2).getTitle());
 		
 	}
 	
@@ -238,26 +232,6 @@ class DatabaseTester {
 		
 	}
 	
-	// TO DO: NEGATIVE VALUES FOR insertProject() method
-	
-	/**
-	 * Tests insertProject() to add in values to the database properly.
-	 * 
-	 * @author Nicole
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
-	 */
-	@Test
-	void insertProjectNameDuplicate() throws ClassNotFoundException, SQLException {
-		assertThrows(SQLException.class, () -> {
-			
-			dbm.insertProject("name", "projectName", 0.0, 0.0, 0);
-			dbm.insertProject("name", "projectName", 0.0, 0.0, 0);
-			
-		});
-		
-		
-	}
 	
 	/**
 	 * Tests insertTask() with a null project name.
@@ -378,23 +352,6 @@ class DatabaseTester {
 		assertThrows(SQLException.class, () -> {
 			
 			dbm.insertMaterial("name", "projectName", null, 0.0);
-			
-		});
-		
-	}
-	
-	/**
-	 * Tests the insertMaterial() method with a duplicate name.
-	 * 
-	 * @author Nicole
-	 */
-	@Test
-	void testInsertMaterialDuplicate() {
-		
-		assertThrows(SQLException.class, () -> {
-			
-			dbm.insertMaterial("name", "projectName", "materialName", 0.0);
-			dbm.insertMaterial("name", "projectName", "materialName", 0.0);
 			
 		});
 		

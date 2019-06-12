@@ -22,6 +22,10 @@ import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 
+/**
+*@Author Casey Hogan
+*Allows you to add and edit data for a given project.
+*/
 public class dataEntry extends JFrame {
         
 	private JFrame dataEntryFrame;
@@ -46,20 +50,6 @@ public class dataEntry extends JFrame {
 	private User user;
 	private Project project;
 	private GUI_START mainGUI;
-	
-
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					dataEntry window = new dataEntry();
-//					window.dataEntryFrame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	public dataEntry(GUI_START theGUI) {		
 		this(theGUI, new Project());
@@ -72,6 +62,10 @@ public class dataEntry extends JFrame {
 		initialize();
 	}
 
+	/**
+	* @Author Casey Hogan
+	* Initializes the JFrame with all
+	*/
 	public void initialize() {
 		
 		
@@ -172,7 +166,7 @@ public class dataEntry extends JFrame {
 				project.removeMaterial(materialNameField.getText());
 			}			
 		});
-		
+		//Casey
 		btnAdd = new JButton("Add\r\n");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -182,6 +176,7 @@ public class dataEntry extends JFrame {
 				costField.setText("$");
 			}
 		});
+		//Casey
 		btnAdd.setForeground(Color.WHITE);
 		btnAdd.setFont(new Font("Berlin Sans FB Demi", Font.BOLD | Font.ITALIC, 11));
 		btnAdd.setBackground(Color.DARK_GRAY);
@@ -213,7 +208,7 @@ public class dataEntry extends JFrame {
 			doPreset();
 		}
 		
-		
+		//Casey
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -237,6 +232,7 @@ public class dataEntry extends JFrame {
 				dataEntryFrame.setVisible(false);
 			}
 		});
+		//Casey
 		saveButton.setBounds(225, 195, 140, 35);
 		saveButton.setBackground(Color.DARK_GRAY);
 		saveButton.setForeground(Color.WHITE);
